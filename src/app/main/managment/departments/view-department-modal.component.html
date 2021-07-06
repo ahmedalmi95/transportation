@@ -1,0 +1,38 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <table id="defualt-table">
+                    <tr>
+                        <td>
+                            <b>{{l("DepartmentName")}}</b>
+                        </td>
+                        <td> {{item.department.departmentName}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("DepartmentEnName")}}</b>
+                        </td>
+                        <td>{{item.department.departmentEnName}}</td>
+                    </tr>
+                    
+                </table>
+
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

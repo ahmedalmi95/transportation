@@ -1,0 +1,282 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #staffForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="staff.id">{{l("EditStaff")}}</span>
+                        <span *ngIf="!staff.id">{{l("CreateNewStaff")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="DepartmentDepartmentName">{{l("Department")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="DepartmentDepartmentName" name="departmentDepartmentName" [(ngModel)]="departmentDepartmentName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectDepartmentModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setDepartmentIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="staff.departmentId" [(ngModel)]="staff.departmentId" type="text"  hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="OrganizationUnitDisplayName">{{l("OrganizationUnit")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="OrganizationUnitDisplayName" name="organizationUnitDisplayName" [(ngModel)]="organizationUnitDisplayName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectOrganizationUnitModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setOrganizationUnitIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="staff.organizationUnitId" [(ngModel)]="staff.organizationUnitId" type="text"  hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="StaffFULL_NAME">{{l("Staff")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="StaffFULL_NAME" name="staffFULL_NAME" [(ngModel)]="staffFULL_NAME" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectStaffModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setsupervisorIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="staff.supervisorId " [(ngModel)]="staff.supervisorId " type="text" required hidden>
+		 
+
+								<div class="form-group">
+									<label for="Staff_FULL_NAME">{{l("FULL_NAME")}}</label>
+									<input type="text" id="Staff_FULL_NAME" class="form-control" [(ngModel)]="staff.fulL_NAME" name="FULL_NAME"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_gender">{{l("gender")}}</label>
+									<input type="text" id="Staff_gender" class="form-control" [(ngModel)]="staff.gender" name="gender"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_workMobile">{{l("workMobile")}}</label>
+									<input type="text" id="Staff_workMobile" class="form-control" [(ngModel)]="staff.workMobile" name="workMobile"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_jobTitle">{{l("jobTitle")}}</label>
+									<input type="text" id="Staff_jobTitle" class="form-control" [(ngModel)]="staff.jobTitle" name="jobTitle"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_profession">{{l("profession")}}</label>
+									<input type="text" id="Staff_profession" class="form-control" [(ngModel)]="staff.profession" name="profession"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_PHONE">{{l("PHONE")}}</label>
+									<input type="text" id="Staff_PHONE" class="form-control" [(ngModel)]="staff.phone" name="PHONE"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_MOBILE">{{l("MOBILE")}}</label>
+									<input type="text" id="Staff_MOBILE" class="form-control" [(ngModel)]="staff.mobile" name="MOBILE"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_POSISTION">{{l("POSISTION")}}</label>
+									<input type="text" id="Staff_POSISTION" class="form-control" [(ngModel)]="staff.posistion" name="POSISTION"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_EMPLOYMENT_TYPE">{{l("EMPLOYMENT_TYPE")}}</label>
+									<input type="text" id="Staff_EMPLOYMENT_TYPE" class="form-control" [(ngModel)]="staff.employmenT_TYPE" name="EMPLOYMENT_TYPE"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_PROJECT_ID">{{l("PROJECT_ID")}}</label>
+									<input type="number" id="Staff_PROJECT_ID" class="form-control" [(ngModel)]="staff.projecT_ID" name="PROJECT_ID"  />
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="Staff_DOB"  class="col-md-12">{{l("DOB")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="dob" id="Staff_DOB" name="Staff_DOB">
+									</div>
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="Staff_DOE"  class="col-md-12">{{l("DOE")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="doe" id="Staff_DOE" name="Staff_DOE">
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_LOGIN_NAME">{{l("LOGIN_NAME")}}</label>
+									<input type="text" id="Staff_LOGIN_NAME" class="form-control" [(ngModel)]="staff.logiN_NAME" name="LOGIN_NAME"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_LOGIN_PASS">{{l("LOGIN_PASS")}}</label>
+									<input type="text" id="Staff_LOGIN_PASS" class="form-control" [(ngModel)]="staff.logiN_PASS" name="LOGIN_PASS"    />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="Staff_IS_ACTIVE" class="m-checkbox">
+										<input id="Staff_IS_ACTIVE" type="checkbox" name="IS_ACTIVE" [(ngModel)]="staff.iS_ACTIVE"> 
+										{{l("IS_ACTIVE")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_Roles">{{l("Roles")}}</label>
+									<input type="text" id="Staff_Roles" class="form-control" [(ngModel)]="staff.roles" name="Roles"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_email">{{l("email")}}</label>
+									<input type="text" id="Staff_email" class="form-control" [(ngModel)]="staff.email" name="email"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_skype">{{l("skype")}}</label>
+									<input type="text" id="Staff_skype" class="form-control" [(ngModel)]="staff.skype" name="skype"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_personalIM">{{l("personalIM")}}</label>
+									<input type="text" id="Staff_personalIM" class="form-control" [(ngModel)]="staff.personalIM" name="personalIM"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_homeFax">{{l("homeFax")}}</label>
+									<input type="text" id="Staff_homeFax" class="form-control" [(ngModel)]="staff.homeFax" name="homeFax"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_homePhone">{{l("homePhone")}}</label>
+									<input type="text" id="Staff_homePhone" class="form-control" [(ngModel)]="staff.homePhone" name="homePhone"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_address">{{l("address")}}</label>
+									<input type="text" id="Staff_address" class="form-control" [(ngModel)]="staff.address" name="address"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_postalCode">{{l("postalCode")}}</label>
+									<input type="text" id="Staff_postalCode" class="form-control" [(ngModel)]="staff.postalCode" name="postalCode"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_workExtension">{{l("workExtension")}}</label>
+									<input type="text" id="Staff_workExtension" class="form-control" [(ngModel)]="staff.workExtension" name="workExtension"    />
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="Staff_lastUpdated"  class="col-md-12">{{l("lastUpdated")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="lastUpdated" id="Staff_lastUpdated" name="Staff_lastUpdated">
+									</div>
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="Staff_EmployeestartDate"  class="col-md-12">{{l("EmployeestartDate")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="employeestartDate" id="Staff_EmployeestartDate" name="Staff_EmployeestartDate">
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_Cost">{{l("Cost")}}</label>
+									<input type="number" id="Staff_Cost" class="form-control" [(ngModel)]="staff.cost" name="Cost"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_TimsheetCheckByEmp">{{l("TimsheetCheckByEmp")}}</label>
+									<input type="number" id="Staff_TimsheetCheckByEmp" class="form-control" [(ngModel)]="staff.timsheetCheckByEmp" name="TimsheetCheckByEmp"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_autoranID">{{l("autoranID")}}</label>
+									<input type="number" id="Staff_autoranID" class="form-control" [(ngModel)]="staff.autoranID" name="autoranID"  />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="Staff_ISDriver" class="m-checkbox">
+										<input id="Staff_ISDriver" type="checkbox" name="ISDriver" [(ngModel)]="staff.isDriver"> 
+										{{l("ISDriver")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_X">{{l("X")}}</label>
+									<input type="number" id="Staff_X" class="form-control" [(ngModel)]="staff.x" name="X"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_Y">{{l("Y")}}</label>
+									<input type="number" id="Staff_Y" class="form-control" [(ngModel)]="staff.y" name="Y"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_Day">{{l("Day")}}</label>
+									<input type="text" id="Staff_Day" class="form-control" [(ngModel)]="staff.day" name="Day"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_DisplayOrder">{{l("DisplayOrder")}}</label>
+									<input type="number" id="Staff_DisplayOrder" class="form-control" [(ngModel)]="staff.displayOrder" name="DisplayOrder"  />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="Staff_IsStop" class="m-checkbox">
+										<input id="Staff_IsStop" type="checkbox" name="IsStop" [(ngModel)]="staff.isStop"> 
+										{{l("IsStop")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_autoranIDServer">{{l("autoranIDServer")}}</label>
+									<input type="number" id="Staff_autoranIDServer" class="form-control" [(ngModel)]="staff.autoranIDServer" name="autoranIDServer"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_IDNumber">{{l("IDNumber")}}</label>
+									<input type="text" id="Staff_IDNumber" class="form-control" [(ngModel)]="staff.idNumber" name="IDNumber"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_KlushNo">{{l("KlushNo")}}</label>
+									<input type="text" id="Staff_KlushNo" class="form-control" [(ngModel)]="staff.klushNo" name="KlushNo"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Staff_welfareClockId">{{l("welfareClockId")}}</label>
+									<input type="number" id="Staff_welfareClockId" class="form-control" [(ngModel)]="staff.welfareClockId" name="welfareClockId"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!staffForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<departmentLookupTableModal #departmentLookupTableModal (modalSave)="getNewDepartmentId()"></departmentLookupTableModal>
+		 <organizationUnitLookupTableModal #organizationUnitLookupTableModal (modalSave)="getNewOrganizationUnitId()"></organizationUnitLookupTableModal>
+		 <staffLookupTableModal #staffLookupTableModal (modalSave)="getNewsupervisorId ()"></staffLookupTableModal>
+		 
+</div>

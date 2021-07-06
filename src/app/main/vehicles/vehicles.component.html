@@ -1,0 +1,323 @@
+<h1>Vehicles</h1>
+<div class="input-group">
+    <input
+        [(ngModel)]="filterText"
+        name="filterText"
+        autoFocus
+        class="form-control m-input"
+        placeholder="SearchWithThreeDot"
+        type="text"
+    />
+    <span class="input-group-btn">
+        <button (click)="getVehcalies()" class="btn btn-primary" type="submit">
+            <i class="flaticon-search-1"></i>
+        </button>
+    </span>
+</div>
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="row align-items-center">
+            <!--<Primeng-Datatable-Start>-->
+            <div class="primeng-datatable-container">
+                <table style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>internalID</th>
+                            <th>vehicleNumber</th>
+                            <th>shortVehicleNumber</th>
+                            <th>vehicleType</th>
+                            <th>status</th>
+                            <th>statusDate</th>
+                            <th>parking</th>
+                            <th>garage</th>
+                            <th>km</th>
+                            <th>testDate</th>
+                            <th>insuranceDate</th>
+                            <th>lastHandleDate</th>
+                            <th>nextHandleDate</th>
+                            <th>updated</th>
+                            <th>operatorID</th>
+                            <th>isBusInTrip</th>
+                            <th>isBusInTripLastUpdated</th>
+                            <th>vehiclesTypeId</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let vehicle of vehicles"
+                            (click)="getVehicleById(vehicle.vehicles.id)"
+                            style="cursor: pointer"
+                        >
+                            <td>{{ vehicle.vehicles.internalID }}</td>
+                            <td>{{ vehicle.vehicles.vehicleNumber }}</td>
+                            <td>{{ vehicle.vehicles.shortVehicleNumber }}</td>
+                            <td>{{ vehicle.vehicles.vehicleType }}</td>
+                            <td>{{ vehicle.vehicles.status }}</td>
+                            <td>{{ vehicle.vehicles.statusDate }}</td>
+                            <td>{{ vehicle.vehicles.parking }}</td>
+                            <td>{{ vehicle.vehicles.garage }}</td>
+                            <td>{{ vehicle.vehicles.km }}</td>
+                            <td>{{ vehicle.vehicles.testDate }}</td>
+                            <td>{{ vehicle.vehicles.insuranceDate }}</td>
+                            <td>{{ vehicle.vehicles.lastHandleDate }}</td>
+                            <td>{{ vehicle.vehicles.nextHandleDate }}</td>
+                            <td>{{ vehicle.vehicles.updated }}</td>
+                            <td>{{ vehicle.vehicles.operatorID }}</td>
+                            <td>{{ vehicle.vehicles.isBusInTrip }}</td>
+                            <td>
+                                {{ vehicle.vehicles.isBusInTripLastUpdated }}
+                            </td>
+                            <td>{{ vehicle.vehicles.vehiclesTypeId }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<Primeng-Datatable-End>-->
+        </div>
+    </div>
+</div>
+
+<div class="view-modal" *ngIf="showModal">
+    <div class="modal-header">
+        <span>View Vehicle</span> <span (click)="close()" class="close">x</span>
+    </div>
+    <div class="modal-body">
+        <form #f="ngForm" (ngSubmit)="submitForm(f.value)">
+            <div class="form-group">
+                <label for="internalID">Internal ID</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="internalID"
+                    aria-describedby="internalID"
+                    placeholder="internalID"
+                    [(ngModel)]="vehicle.internalID"
+                    name="internalID"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="vehicleNumber">vehicle Number</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="vehicleNumber"
+                    aria-describedby="vehicleNumber"
+                    placeholder="vehicleNumber"
+                    [(ngModel)]="vehicle.vehicleNumber"
+                    name="vehicleNumber"
+                />
+            </div>
+            <div class="form-group">
+                <label for="shortVehicleNumber">short Vehicle Number</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="shortVehicleNumber"
+                    aria-describedby="shortVehicleNumber"
+                    placeholder="shortVehicleNumber"
+                    [(ngModel)]="vehicle.shortVehicleNumber"
+                    name="shortVehicleNumber"
+                />
+            </div>
+            <div class="form-group">
+                <label for="vehicleType">vehicle Type</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="vehicleType"
+                    aria-describedby="vehicleType"
+                    placeholder="vehicleType"
+                    [(ngModel)]="vehicle.vehicleType"
+                    name="vehicleType"
+                />
+            </div>
+            <div class="form-group">
+                <label for="status">status</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="status"
+                    aria-describedby="emailHelp"
+                    placeholder="status"
+                    [(ngModel)]="vehicle.status"
+                    name="status"
+                />
+            </div>
+            <div class="form-group">
+                <label for="statusDate">statusDate</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="statusDate"
+                    aria-describedby="statusDate"
+                    placeholder="statusDate"
+                    [(ngModel)]="vehicle.statusDate"
+                    name="statusDate"
+                />
+            </div>
+            <div class="form-group">
+                <label for="insuranceDate">parking</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="parking"
+                    aria-describedby="parking"
+                    placeholder="parking"
+                    [(ngModel)]="vehicle.parking"
+                    name="parking"
+                />
+            </div>
+            <div class="form-group">
+                <label for="garage">garage</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="garage"
+                    aria-describedby="garage"
+                    placeholder="garage"
+                    [(ngModel)]="vehicle.garage"
+                    name="garage"
+                />
+            </div>
+            <div class="form-group">
+                <label for="insuranceDate">km</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="km"
+                    aria-describedby="km"
+                    placeholder="km"
+                    [(ngModel)]="vehicle.km"
+                    name="km"
+                />
+            </div>
+            <div class="form-group">
+                <label for="testDate">testDate</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="testDate"
+                    aria-describedby="testDate"
+                    placeholder="testDate"
+                    [(ngModel)]="vehicle.testDate"
+                    name="testDate"
+                />
+            </div>
+            <div class="form-group">
+                <label for="insuranceDate">Internal ID</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="insuranceDate"
+                    aria-describedby="insuranceDate"
+                    placeholder="insuranceDate"
+                    [(ngModel)]="vehicle.insuranceDate"
+                    name="insuranceDate"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="lastHandleDate">lastHandleDate</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="lastHandleDate"
+                    aria-describedby="lastHandleDate"
+                    placeholder="insuranceDate"
+                    [(ngModel)]="vehicle.lastHandleDate"
+                    name="lastHandleDate"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="insuranceDate">Internal</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="nextHandleDate"
+                    aria-describedby="nextHandleDate"
+                    placeholder="nextHandleDate"
+                    [(ngModel)]="vehicle.nextHandleDate"
+                    name="nextHandleDate"
+                />
+            </div>
+            <div class="form-group">
+                <label for="updated">updated</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="updated"
+                    aria-describedby="updated"
+                    placeholder="insuranceDate"
+                    [(ngModel)]="vehicle.updated"
+                    name="updated"
+                />
+            </div>
+            <div class="form-group">
+                <label for="operatorID">operatorID</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="operatorID"
+                    aria-describedby="operatorID"
+                    placeholder="operatorID"
+                    [(ngModel)]="vehicle.operatorID"
+                    name="operatorID"
+                />
+            </div>
+            <div class="form-group">
+                <label for="insuranceDate">isBusInTrip</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="isBusInTrip"
+                    aria-describedby="isBusInTrip"
+                    placeholder="isBusInTrip"
+                    [(ngModel)]="vehicle.isBusInTrip"
+                    name="isBusInTrip"
+                />
+            </div>
+            <div class="form-group">
+                <label for="insuranceDate">Internal</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="insuranceDate"
+                    aria-describedby="insuranceDate"
+                    placeholder="insuranceDate"
+                    [(ngModel)]="vehicle.insuranceDate"
+                    name="insuranceDate"
+                />
+            </div>
+            <div class="form-group">
+                <label for="insuranceDate">isBusInTripLastUpdated</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="isBusInTripLastUpdated"
+                    aria-describedby="isBusInTripLastUpdated"
+                    placeholder="isBusInTripLastUpdated"
+                    [(ngModel)]="vehicle.isBusInTripLastUpdated"
+                    name="isBusInTripLastUpdated"
+                />
+            </div>
+            <div class="form-group">
+              <label for="insuranceDate">vehiclesTypeId</label>
+              <input
+                  type="text"
+                  class="form-control"
+                  id="vehiclesTypeId"
+                  aria-describedby="vehiclesTypeId"
+                  placeholder="vehiclesTypeId"
+                  [(ngModel)]="vehicle.vehiclesTypeId"
+                  name="vehiclesTypeId"
+              />
+          </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button (click)="close()" class="btn btn-danger">close</button>
+    </div>
+</div>

@@ -1,0 +1,241 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="m-stack m-stack--hor m-stack--general m-stack--demo">
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanCalnderID")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanCalnderID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanStartTime")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanStartTime}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanLineNumber")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanLineNumber}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanDirection")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanDirection}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanDriverName")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanDriverName}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanBusNumber")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanBusNumber}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryID")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryLineNumber")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryLineNumber}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryDirection")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryDirection}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryCalenderID")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryCalenderID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryTimeSpan")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryTimeSpan}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryMonday")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryMonday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryTuesday")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryTuesday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryWensday")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryWensday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryFriday")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryFriday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryThursday")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryThursday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistrySaturday")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistrySaturday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistrySunday")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistrySunday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryStart_date")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryStart_date}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripMinistryRouteID")}} :</h6>
+                        {{item.viwTripPlaned.tripMinistryRouteID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanmonday")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanmonday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanTuesday")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanTuesday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanWensday")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanWensday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanthursday")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanthursday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanfriday")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanfriday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlansaturday")}} :</h6>
+                        {{item.viwTripPlaned.trpPlansaturday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlansunday")}} :</h6>
+                        {{item.viwTripPlaned.trpPlansunday}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanStart_date")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanStart_date}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanEnd_date")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanEnd_date}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanTaskNo")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanTaskNo}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripPlanedID")}} :</h6>
+                        {{item.viwTripPlaned.tripPlanedID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("DriverIDPPlaned")}} :</h6>
+                        {{item.viwTripPlaned.driverIDPPlaned}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("BUSIDPlanlned")}} :</h6>
+                        {{item.viwTripPlaned.busidPlanlned}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanISValid")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanISValid}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanEndTime")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanEndTime}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TrpPlanRouteID")}} :</h6>
+                        {{item.viwTripPlaned.trpPlanRouteID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("CalenderID")}} :</h6>
+                        {{item.viwTripPlaned.calenderID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("ViwTripPlanedDaily")}} :</h6>
+                        {{item.viwTripPlaned.viwTripPlanedDaily}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("CatSedor")}} :</h6>
+                        {{item.viwTripPlaned.catSedor}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("Notes")}} :</h6>
+                        {{item.viwTripPlaned.notes}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("BusGroup")}} :</h6>
+                        {{item.viwTripPlaned.busGroup}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("Driver")}} :</h6>
+                        {{item.viwTripPlaned.driver}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("BusID")}} :</h6>
+                        {{item.viwTripPlaned.busID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

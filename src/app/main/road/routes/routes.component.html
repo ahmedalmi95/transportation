@@ -1,0 +1,695 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{ l("Routes") }}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{ l("RoutesHeaderInfo") }}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+                <button
+                    (click)="exportToExcel()"
+                    class="btn btn-outline-success"
+                >
+                    <i class="fa fa-file-excel"></i> {{ l("ExportToExcel") }}
+                </button>
+                <button
+                    *ngIf="isGranted('Pages.Routes.Create')"
+                    (click)="createRoute()"
+                    class="btn btn-primary blue"
+                >
+                    <i class="fa fa-plus"></i> {{ l("CreateNewRoute") }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div
+                                    class="
+                                        form-group
+                                        m-form__group
+                                        align-items-center
+                                    "
+                                >
+                                    <div class="input-group">
+                                        <input
+                                            [(ngModel)]="filterText"
+                                            name="filterText"
+                                            autoFocus
+                                            class="form-control m-input"
+                                            [placeholder]="
+                                                l('SearchWithThreeDot')
+                                            "
+                                            type="text"
+                                        />
+                                        <span class="input-group-btn">
+                                            <button
+                                                (click)="getRoutes()"
+                                                class="btn btn-primary"
+                                                type="submit"
+                                            >
+                                                <i
+                                                    class="flaticon-search-1"
+                                                ></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="row m--margin-bottom-10"
+                            [hidden]="!advancedFiltersAreShown"
+                        >
+                            <div class="col-md-12">
+                                <div
+                                    class="m-separator m-separator--dashed"
+                                ></div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinLineNumberFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("LineNumber") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinLineNumberFilter"
+                                            [(ngModel)]="minLineNumberFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minLineNumberFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxLineNumberFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxLineNumberFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinDirectionFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("Direction") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinDirectionFilter"
+                                            [(ngModel)]="minDirectionFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minDirectionFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxDirectionFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxDirectionFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinLineCodeFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("LineCode") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinLineCodeFilter"
+                                            [(ngModel)]="minLineCodeFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minLineCodeFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxLineCodeFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxLineCodeFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinSignageFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("Signage") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinSignageFilter"
+                                            [(ngModel)]="minSignageFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minSignageFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxSignageFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxSignageFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinagencyFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("agency") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinagencyFilter"
+                                            [(ngModel)]="minagencyFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minagencyFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxagencyFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxagencyFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinTotalKMFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("TotalKM") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinTotalKMFilter"
+                                            [(ngModel)]="minTotalKMFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minTotalKMFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxTotalKMFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxTotalKMFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinTotalMinutesFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("TotalMinutes") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinTotalMinutesFilter"
+                                            [(ngModel)]="minTotalMinutesFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minTotalMinutesFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxTotalMinutesFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxTotalMinutesFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="RouteIDGTFSFilter">{{
+                                        l("RouteIDGTFS")
+                                    }}</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="RouteIDGTFSFilter"
+                                        name="routeIDGTFSFilter"
+                                        [(ngModel)]="routeIDGTFSFilter"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinCatSedorFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("CatSedor") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinCatSedorFilter"
+                                            [(ngModel)]="minCatSedorFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minCatSedorFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxCatSedorFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxCatSedorFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span
+                                    class="clickable-item text-muted"
+                                    *ngIf="!advancedFiltersAreShown"
+                                    (click)="
+                                        advancedFiltersAreShown =
+                                            !advancedFiltersAreShown
+                                    "
+                                    ><i class="fa fa-angle-down"></i>
+                                    {{ l("ShowAdvancedFilters") }}</span
+                                >
+                                <span
+                                    class="clickable-item text-muted"
+                                    *ngIf="advancedFiltersAreShown"
+                                    (click)="
+                                        advancedFiltersAreShown =
+                                            !advancedFiltersAreShown
+                                    "
+                                    ><i class="fa fa-angle-up"></i>
+                                    {{ l("HideAdvancedFilters") }}</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div>
+                    <ng-select
+                        [items]="items"
+                        bindLabel="name"
+                        [(ngModel)]="selectedItems"
+                        [multiple]="true"
+                        placeholder="Select columns to hide"
+                        (change)="changeFunction(selectedItems)"
+                    >
+                    </ng-select>
+                </div>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div
+                        class="primeng-datatable-container"
+                        [busyIf]="primengTableHelper.isLoading"
+                    >
+                        <p-table
+                            #dataTable
+                            (onLazyLoad)="getRoutes($event)"
+                            [value]="primengTableHelper.records"
+                            rows="{{
+                                primengTableHelper.defaultRecordsCountPerPage
+                            }}"
+                            [paginator]="false"
+                            [lazy]="true"
+                            [scrollable]="true"
+                            ScrollWidth="100%"
+                            [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="
+                                primengTableHelper.resizableColumns
+                            "
+                        >
+                            <ng-template pTemplate="header" id="my-table">
+                                <tr>
+                                    <th
+                                        style="width: 130px"
+                                        [hidden]="
+                                            !isGrantedAny(
+                                                'Pages.Routes.Edit',
+                                                'Pages.Routes.Delete'
+                                            )
+                                        "
+                                    >
+                                        {{ l("Actions") }}
+                                    </th>
+                                    <th
+                                        [hidden]="islineNumber"
+                                        style="width: 150px"
+                                        pSortableColumn="route.lineNumber"
+                                    >
+                                        {{ l("LineNumber") }}
+
+                                        <p-sortIcon
+                                            field="route.lineNumber"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="isdirection"
+                                        style="width: 150px"
+                                        pSortableColumn="route.direction"
+                                    >
+                                        {{ l("Direction") }}
+                                        <p-sortIcon
+                                            field="route.direction"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="islineCode"
+                                        style="width: 150px"
+                                        pSortableColumn="route.lineCode"
+                                    >
+                                        {{ l("LineCode") }}
+                                        <p-sortIcon
+                                            field="route.lineCode"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="issignage"
+                                        style="width: 150px"
+                                        pSortableColumn="route.signage"
+                                    >
+                                        {{ l("Signage") }}
+                                        <p-sortIcon
+                                            field="route.signage"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="isagency"
+                                        style="width: 150px"
+                                        pSortableColumn="route.agency"
+                                    >
+                                        {{ l("agency") }}
+                                        <p-sortIcon
+                                            field="route.agency"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="istotalKM"
+                                        style="width: 150px"
+                                        pSortableColumn="route.totalKM"
+                                    >
+                                        {{ l("TotalKM") }}
+                                        <p-sortIcon
+                                            field="route.totalKM"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="istotalMinutes"
+                                        style="width: 150px"
+                                        pSortableColumn="route.totalMinutes"
+                                    >
+                                        {{ l("TotalMinutes") }}
+                                        <p-sortIcon
+                                            field="route.totalMinutes"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="isrouteIDGTFS"
+                                        style="width: 150px"
+                                        pSortableColumn="route.routeIDGTFS"
+                                    >
+                                        {{ l("RouteIDGTFS") }}
+                                        <p-sortIcon
+                                            field="route.routeIDGTFS"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="iscatSedor"
+                                        style="width: 150px"
+                                        pSortableColumn="route.catSedor"
+                                    >
+                                        {{ l("CatSedor") }}
+                                        <p-sortIcon
+                                            field="route.catSedor"
+                                        ></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template
+                                pTemplate="body"
+                                let-record="$implicit"
+                            >
+                                <tr>
+                                    <td
+                                        style="width: 130px"
+                                        [hidden]="
+                                            !isGrantedAny(
+                                                'Pages.Routes.Edit',
+                                                'Pages.Routes.Delete'
+                                            )
+                                        "
+                                    >
+                                        <div
+                                            class="btn-group dropdown"
+                                            dropdown
+                                            container="body"
+                                        >
+                                            <button
+                                                class="
+                                                    dropdown-toggle
+                                                    btn btn-sm btn-primary
+                                                "
+                                                dropdownToggle
+                                            >
+                                                <i class="fa fa-cog"></i
+                                                ><span class="caret"></span>
+                                                {{ l("Actions") }}
+                                            </button>
+                                            <ul
+                                                class="dropdown-menu"
+                                                *dropdownMenu
+                                            >
+                                                <li>
+                                                    <a
+                                                        href="javascript:;"
+                                                        (click)="
+                                                            viewRouteModal.show(
+                                                                record
+                                                            )
+                                                        "
+                                                        >{{ l("View") }}</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="javascript:;"
+                                                        *ngIf="
+                                                            permission.isGranted(
+                                                                'Pages.Routes.Edit'
+                                                            )
+                                                        "
+                                                        (click)="
+                                                            createOrEditRouteModal.show(
+                                                                record.route.id
+                                                            )
+                                                        "
+                                                        >{{ l("Edit") }}</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="javascript:;"
+                                                        *ngIf="
+                                                            permission.isGranted(
+                                                                'Pages.Routes.Delete'
+                                                            )
+                                                        "
+                                                        (click)="
+                                                            deleteRoute(
+                                                                record.route
+                                                            )
+                                                        "
+                                                        >{{ l("Delete") }}</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="javascript:;"
+                                                        (click)="
+                                                            viewStations(
+                                                                record.route.id
+                                                            )
+                                                        "
+                                                        >{{
+                                                            l("View Stations")
+                                                        }}</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="javascript:;"
+                                                        *ngIf="
+                                                            entityHistoryEnabled
+                                                        "
+                                                        (click)="
+                                                            showHistory(
+                                                                record.route
+                                                            )
+                                                        "
+                                                        >{{ l("History") }}</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="islineNumber"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("LineNumber") }}</span
+                                        >
+                                        {{ record.route.lineNumber }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="isdirection"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("Direction") }}</span
+                                        >
+                                        {{ record.route.direction }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="islineCode"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("LineCode") }}</span
+                                        >
+                                        {{ record.route.lineCode }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="issignage"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("Signage") }}</span
+                                        >
+                                        {{ record.route.signage }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="isagency"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("agency") }}</span
+                                        >
+                                        {{ record.route.agency }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="istotalKM"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("TotalKM") }}</span
+                                        >
+                                        {{ record.route.totalKM }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="istotalMinutes"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("TotalMinutes") }}</span
+                                        >
+                                        {{ record.route.totalMinutes }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="isrouteIDGTFS"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("RouteIDGTFS") }}</span
+                                        >
+                                        {{ record.route.routeIDGTFS }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="iscatSedor"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("CatSedor") }}</span
+                                        >
+                                        {{ record.route.catSedor }}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div
+                            class="primeng-no-data"
+                            *ngIf="primengTableHelper.totalRecordsCount == 0"
+                        >
+                            {{ l("NoData") }}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator
+                                rows="{{
+                                    primengTableHelper.defaultRecordsCountPerPage
+                                }}"
+                                #paginator
+                                (onPageChange)="getRoutes($event)"
+                                [totalRecords]="
+                                    primengTableHelper.totalRecordsCount
+                                "
+                                [rowsPerPageOptions]="
+                                    primengTableHelper.predefinedRecordsCountPerPage
+                                "
+                            >
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{
+                                    l(
+                                        "TotalRecordsCount",
+                                        primengTableHelper.totalRecordsCount
+                                    )
+                                }}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditRouteModal
+        #createOrEditRouteModal
+        (modalSave)="getRoutes()"
+    ></createOrEditRouteModal>
+    <viewRouteModal #viewRouteModal></viewRouteModal>
+    <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+</div>

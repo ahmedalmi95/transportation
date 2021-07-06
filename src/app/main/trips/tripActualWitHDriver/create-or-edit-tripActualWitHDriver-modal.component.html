@@ -1,0 +1,80 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #tripActualWitHDriverForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="tripActualWitHDriver.id">{{l("EditTripActualWitHDriver")}}</span>
+                        <span *ngIf="!tripActualWitHDriver.id">{{l("CreateNewTripActualWitHDriver")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="TripActualWitHDriver_TripPlanID">{{l("TripPlanID")}}</label>
+									<input type="number" id="TripActualWitHDriver_TripPlanID" class="form-control" [(ngModel)]="tripActualWitHDriver.tripPlanID" name="TripPlanID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualWitHDriver_Driver">{{l("Driver")}}</label>
+									<input type="number" id="TripActualWitHDriver_Driver" class="form-control" [(ngModel)]="tripActualWitHDriver.driver" name="Driver"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualWitHDriver_BusID">{{l("BusID")}}</label>
+									<input type="number" id="TripActualWitHDriver_BusID" class="form-control" [(ngModel)]="tripActualWitHDriver.busID" name="BusID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualWitHDriver_TaskNo">{{l("TaskNo")}}</label>
+									<input type="number" id="TripActualWitHDriver_TaskNo" class="form-control" [(ngModel)]="tripActualWitHDriver.taskNo" name="TaskNo"  />
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="TripActualWitHDriver_TripDate"  class="col-md-12">{{l("TripDate")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="tripDate" id="TripActualWitHDriver_TripDate" name="TripActualWitHDriver_TripDate">
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualWitHDriver_StartTime">{{l("StartTime")}}</label>
+									<input type="text" id="TripActualWitHDriver_StartTime" class="form-control" [(ngModel)]="tripActualWitHDriver.startTime" name="StartTime"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualWitHDriver_EndTime">{{l("EndTime")}}</label>
+									<input type="text" id="TripActualWitHDriver_EndTime" class="form-control" [(ngModel)]="tripActualWitHDriver.endTime" name="EndTime"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualWitHDriver_TotalHour">{{l("TotalHour")}}</label>
+									<input type="number" id="TripActualWitHDriver_TotalHour" class="form-control" [(ngModel)]="tripActualWitHDriver.totalHour" name="TotalHour"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualWitHDriver_TripLength">{{l("TripLength")}}</label>
+									<input type="number" id="TripActualWitHDriver_TripLength" class="form-control" [(ngModel)]="tripActualWitHDriver.tripLength" name="TripLength"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualWitHDriver_TripActualID">{{l("TripActualID")}}</label>
+									<input type="number" id="TripActualWitHDriver_TripActualID" class="form-control" [(ngModel)]="tripActualWitHDriver.tripActualID" name="TripActualID"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!tripActualWitHDriverForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

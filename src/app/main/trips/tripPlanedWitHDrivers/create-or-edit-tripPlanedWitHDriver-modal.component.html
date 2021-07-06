@@ -1,0 +1,58 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #tripPlanedWitHDriverForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="tripPlanedWitHDriver.id">{{l("EditTripPlanedWitHDriver")}}</span>
+                        <span *ngIf="!tripPlanedWitHDriver.id">{{l("CreateNewTripPlanedWitHDriver")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="TripPlanedWitHDriver_TripPlanID">{{l("TripPlanID")}}</label>
+									<input type="number" id="TripPlanedWitHDriver_TripPlanID" class="form-control" [(ngModel)]="tripPlanedWitHDriver.tripPlanID" name="TripPlanID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripPlanedWitHDriver_Driver">{{l("Driver")}}</label>
+									<input type="number" id="TripPlanedWitHDriver_Driver" class="form-control" [(ngModel)]="tripPlanedWitHDriver.driver" name="Driver"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripPlanedWitHDriver_BusID">{{l("BusID")}}</label>
+									<input type="number" id="TripPlanedWitHDriver_BusID" class="form-control" [(ngModel)]="tripPlanedWitHDriver.busID" name="BusID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripPlanedWitHDriver_TaskNo">{{l("TaskNo")}}</label>
+									<input type="number" id="TripPlanedWitHDriver_TaskNo" class="form-control" [(ngModel)]="tripPlanedWitHDriver.taskNo" name="TaskNo"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripPlanedWitHDriver_Notes">{{l("Notes")}}</label>
+									<input type="text" id="TripPlanedWitHDriver_Notes" class="form-control" [(ngModel)]="tripPlanedWitHDriver.notes" name="Notes"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripPlanedWitHDriver_BusGroup">{{l("BusGroup")}}</label>
+									<input type="text" id="TripPlanedWitHDriver_BusGroup" class="form-control" [(ngModel)]="tripPlanedWitHDriver.busGroup" name="BusGroup"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!tripPlanedWitHDriverForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,97 @@
+<div
+    bsModal
+    #createOrEditModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{ l("") }}</span>
+                </h4>
+                <button
+                    type="button"
+                    class="close"
+                    (click)="close()"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="defualt-table">
+                    <tr>
+                        <td>
+                            <b>{{ l("LineNumber") }}</b>
+                        </td>
+                        <td>{{ item.route.lineNumber | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("Direction") }}</b>
+                        </td>
+                        <td>{{ item.route.direction | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("LineCode") }}</b>
+                        </td>
+                        <td>{{ item.route.lineCode | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("Signage") }}</b>
+                        </td>
+                        <td>{{ item.route.signage | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("agency") }}</b>
+                        </td>
+                        <td>{{ item.route.agency | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("TotalKM") }}</b>
+                        </td>
+                        <td>{{ item.route.totalKM | number }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("TotalMinutes") }}</b>
+                        </td>
+                        <td>{{ item.route.totalMinutes | number }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("RouteIDGTFS") }}</b>
+                        </td>
+                        <td>{{ item.route.routeIDGTFS | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("CatSedor") }}</b>
+                        </td>
+                        <td>{{ item.route.catSedor | number }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button
+                    [disabled]="saving"
+                    type="button"
+                    class="btn btn-primary blue"
+                    (click)="close()"
+                >
+                    {{ l("Close") }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

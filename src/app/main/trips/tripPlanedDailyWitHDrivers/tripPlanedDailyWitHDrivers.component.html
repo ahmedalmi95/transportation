@@ -1,0 +1,218 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("TripPlanedDailyWitHDrivers")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("TripPlanedDailyWitHDriversHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.TripPlanedDailyWitHDrivers.Create')" (click)="createTripPlanedDailyWitHDriver()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewTripPlanedDailyWitHDriver")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getTripPlanedDailyWitHDrivers()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTripPlanIDFilter">{{l("MinMax")}} {{l("TripPlanID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTripPlanIDFilter" [(ngModel)]="minTripPlanIDFilter" placeholder="{{l('MinValue')}}" name="minTripPlanIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTripPlanIDFilter" placeholder="{{l('MaxValue')}}" name="maxTripPlanIDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinDriverFilter">{{l("MinMax")}} {{l("Driver")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinDriverFilter" [(ngModel)]="minDriverFilter" placeholder="{{l('MinValue')}}" name="minDriverFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxDriverFilter" placeholder="{{l('MaxValue')}}" name="maxDriverFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinBusIDFilter">{{l("MinMax")}} {{l("BusID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinBusIDFilter" [(ngModel)]="minBusIDFilter" placeholder="{{l('MinValue')}}" name="minBusIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxBusIDFilter" placeholder="{{l('MaxValue')}}" name="maxBusIDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTaskNoFilter">{{l("MinMax")}} {{l("TaskNo")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTaskNoFilter" [(ngModel)]="minTaskNoFilter" placeholder="{{l('MinValue')}}" name="minTaskNoFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTaskNoFilter" placeholder="{{l('MaxValue')}}" name="maxTaskNoFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinWorkingdayFilter">{{l("MinMax")}} {{l("Workingday")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinWorkingdayFilter" name="MinWorkingdayFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minWorkingdayFilter">
+                                        <input class="form-control m-input" id="MaxWorkingdayFilter" name="MaxWorkingdayFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxWorkingdayFilter">
+									</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getTripPlanedDailyWitHDrivers($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.TripPlanedDailyWitHDrivers.Edit', 'Pages.TripPlanedDailyWitHDrivers.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="tripPlanedDailyWitHDriver.tripPlanID">
+                                        {{l('TripPlanID')}}
+                                        <p-sortIcon field="tripPlanedDailyWitHDriver.tripPlanID"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripPlanedDailyWitHDriver.driver">
+                                        {{l('Driver')}}
+                                        <p-sortIcon field="tripPlanedDailyWitHDriver.driver"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripPlanedDailyWitHDriver.busID">
+                                        {{l('BusID')}}
+                                        <p-sortIcon field="tripPlanedDailyWitHDriver.busID"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripPlanedDailyWitHDriver.taskNo">
+                                        {{l('TaskNo')}}
+                                        <p-sortIcon field="tripPlanedDailyWitHDriver.taskNo"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripPlanedDailyWitHDriver.workingday">
+                                        {{l('Workingday')}}
+                                        <p-sortIcon field="tripPlanedDailyWitHDriver.workingday"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.TripPlanedDailyWitHDrivers.Edit', 'Pages.TripPlanedDailyWitHDrivers.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewTripPlanedDailyWitHDriverModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.TripPlanedDailyWitHDrivers.Edit')"
+														(click)="createOrEditTripPlanedDailyWitHDriverModal.show(record.tripPlanedDailyWitHDriver.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.TripPlanedDailyWitHDrivers.Delete')"
+														(click)="deleteTripPlanedDailyWitHDriver(record.tripPlanedDailyWitHDriver)">{{l('Delete')}}</a>
+												</li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="entityHistoryEnabled"
+                                                       (click)="showHistory(record.tripPlanedDailyWitHDriver)">{{l('History')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('TripPlanID')}}</span>
+											{{record.tripPlanedDailyWitHDriver.tripPlanID}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Driver')}}</span>
+											{{record.tripPlanedDailyWitHDriver.driver}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('BusID')}}</span>
+											{{record.tripPlanedDailyWitHDriver.busID}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('TaskNo')}}</span>
+											{{record.tripPlanedDailyWitHDriver.taskNo}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Workingday')}}</span>
+                                        <span *ngIf="record.tripPlanedDailyWitHDriver.workingday">
+											{{record.tripPlanedDailyWitHDriver.workingday | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.tripPlanedDailyWitHDriver.workingday">-</span>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getTripPlanedDailyWitHDrivers($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditTripPlanedDailyWitHDriverModal #createOrEditTripPlanedDailyWitHDriverModal (modalSave)="getTripPlanedDailyWitHDrivers()"></createOrEditTripPlanedDailyWitHDriverModal>
+    <viewTripPlanedDailyWitHDriverModal #viewTripPlanedDailyWitHDriverModal></viewTripPlanedDailyWitHDriverModal>
+     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+</div>

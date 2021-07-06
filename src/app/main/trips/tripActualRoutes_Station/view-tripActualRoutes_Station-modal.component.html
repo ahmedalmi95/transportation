@@ -1,0 +1,71 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="m-stack m-stack--hor m-stack--general m-stack--demo">
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("RoutesID")}} :</h6>
+                        {{item.tripActualRoutes_Station.routesID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("StationCode")}} :</h6>
+                        {{item.tripActualRoutes_Station.stationCode}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("StationOrder")}} :</h6>
+                        {{item.tripActualRoutes_Station.stationOrder}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("DistanceFStart")}} :</h6>
+                        {{item.tripActualRoutes_Station.distanceFStart}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("DistanceFPrviousSt")}} :</h6>
+                        {{item.tripActualRoutes_Station.distanceFPrviousSt}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TimefrStartStation")}} :</h6>
+                        {{item.tripActualRoutes_Station.timefrStartStation}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TimefrPrviousStation")}} :</h6>
+                        {{item.tripActualRoutes_Station.timefrPrviousStation}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TimeSpendonStation")}} :</h6>
+                        {{item.tripActualRoutes_Station.timeSpendonStation}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripActualID")}} :</h6>
+                        {{item.tripActualRoutes_Station.tripActualID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

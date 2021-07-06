@@ -1,0 +1,86 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="m-stack m-stack--hor m-stack--general m-stack--demo">
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TimeSpan")}} :</h6>
+                        {{item.tripActual.timeSpan}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("EndStationID")}} :</h6>
+                        {{item.tripActual.endStationID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("StartStationID")}} :</h6>
+                        {{item.tripActual.startStationID}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("StartStation")}} :</h6>
+                        {{item.tripActual.startStation}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("EndStation")}} :</h6>
+                        {{item.tripActual.endStation}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("TripDate")}} :</h6>
+                        {{item.tripActual.tripDate}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("ControlStartTime")}} :</h6>
+                        {{item.tripActual.controlStartTime}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>{{l("isdone")}} :</h6>
+                        {{item.tripActual.isdone}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>({{l("Route")}}) {{l("LineNumber")}} :</h6>
+                        {{item.routeLineNumber}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>({{l("CalenderBus")}}) {{l("TenantId")}} :</h6>
+                        {{item.calenderBusTenantId}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>({{l("TripPlaned")}}) {{l("TenantId")}} :</h6>
+                        {{item.tripPlanedTenantId}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
+                        <h6>({{l("TripByMinistry")}}) {{l("TenantId")}} :</h6>
+                        {{item.tripByMinistryTenantId}}
+                    </div>
+                    <div class="m-separator m-separator--dashed"></div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

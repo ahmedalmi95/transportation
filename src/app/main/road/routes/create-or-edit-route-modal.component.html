@@ -1,0 +1,164 @@
+<div
+    bsModal
+    #createOrEditModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form
+                *ngIf="active"
+                #routeForm="ngForm"
+                novalidate
+                (ngSubmit)="save()"
+                autocomplete="off"
+            >
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="route.id">{{ l("EditRoute") }}</span>
+                        <span *ngIf="!route.id">{{ l("CreateNewRoute") }}</span>
+                    </h4>
+                    <button
+                        type="button"
+                        class="close"
+                        (click)="close()"
+                        aria-label="Close"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body row">
+                    <div class="form-group col-sm-6">
+                        <label for="Route_LineNumber">{{
+                            l("LineNumber")
+                        }}</label>
+                        <input
+                            type="number"
+                            id="Route_LineNumber"
+                            class="form-control"
+                            [(ngModel)]="route.lineNumber"
+                            name="LineNumber"
+                        />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="Route_Direction">{{
+                            l("Direction")
+                        }}</label>
+                        <input
+                            type="number"
+                            id="Route_Direction"
+                            class="form-control"
+                            [(ngModel)]="route.direction"
+                            name="Direction"
+                        />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="Route_LineCode">{{ l("LineCode") }}</label>
+                        <input
+                            type="number"
+                            id="Route_LineCode"
+                            class="form-control"
+                            [(ngModel)]="route.lineCode"
+                            name="LineCode"
+                        />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="Route_Signage">{{ l("Signage") }}</label>
+                        <input
+                            type="number"
+                            id="Route_Signage"
+                            class="form-control"
+                            [(ngModel)]="route.signage"
+                            name="Signage"
+                        />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="Route_agency">{{ l("agency") }}</label>
+                        <input
+                            type="number"
+                            id="Route_agency"
+                            class="form-control"
+                            [(ngModel)]="route.agency"
+                            name="agency"
+                        />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="Route_TotalKM">{{ l("TotalKM") }}</label>
+                        <input
+                            type="number"
+                            id="Route_TotalKM"
+                            class="form-control"
+                            [(ngModel)]="route.totalKM"
+                            name="TotalKM"
+                        />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="Route_TotalMinutes">{{
+                            l("TotalMinutes")
+                        }}</label>
+                        <input
+                            type="number"
+                            id="Route_TotalMinutes"
+                            class="form-control"
+                            [(ngModel)]="route.totalMinutes"
+                            name="TotalMinutes"
+                        />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="Route_RouteIDGTFS">{{
+                            l("RouteIDGTFS")
+                        }}</label>
+                        <input
+                            type="text"
+                            id="Route_RouteIDGTFS"
+                            class="form-control"
+                            [(ngModel)]="route.routeIDGTFS"
+                            name="RouteIDGTFS"
+                        />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="Route_CatSedor">{{ l("CatSedor") }}</label>
+                        <input
+                            type="number"
+                            id="Route_CatSedor"
+                            class="form-control"
+                            [(ngModel)]="route.catSedor"
+                            name="CatSedor"
+                        />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        [disabled]="saving"
+                        type="button"
+                        class="btn btn-default"
+                        (click)="close()"
+                    >
+                        {{ l("Cancel") }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary blue"
+                        [disabled]="!routeForm.form.valid"
+                        [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')"
+                    >
+                        <i class="fa fa-save"></i> <span>{{ l("Save") }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

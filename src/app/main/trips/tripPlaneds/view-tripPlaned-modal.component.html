@@ -1,0 +1,84 @@
+<div
+    bsModal
+    #createOrEditModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{ l("") }}</span>
+                </h4>
+                <button
+                    type="button"
+                    class="close"
+                    (click)="close()"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="defualt-table">
+                    <tr>
+                        <td>
+                            <b>{{ l("CalenderID") }} </b>
+                        </td>
+                        <td>{{ item.tripPlaned.calenderID }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("RouteID") }} </b>
+                        </td>
+                        <td>{{ item.tripPlaned.routeID }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("TimeSpan") }} </b>
+                        </td>
+                        <td>{{ item.tripPlaned.timeSpan }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("TripMinistry") }} </b>
+                        </td>
+                        <td>{{ item.tripPlaned.tripMinistry }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("ISValid") }} </b>
+                        </td>
+                        <td>{{ item.tripPlaned.isValid }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("EndTimeSpan") }} </b>
+                        </td>
+                        <td>{{ item.tripPlaned.endTimeSpan }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>({{ l("TripType") }}) {{ l("Name") }} </b>
+                        </td>
+                        <td>{{ item.tripTypeName }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button
+                    [disabled]="saving"
+                    type="button"
+                    class="btn btn-primary blue"
+                    (click)="close()"
+                >
+                    {{ l("Close") }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

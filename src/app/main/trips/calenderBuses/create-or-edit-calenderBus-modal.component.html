@@ -1,0 +1,98 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #calenderBusForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="calenderBus.id">{{l("EditCalenderBus")}}</span>
+                        <span *ngIf="!calenderBus.id">{{l("CreateNewCalenderBus")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<br/><div class="m-checkbox-list">
+									<label for="CalenderBus_monday" class="m-checkbox">
+										<input id="CalenderBus_monday" type="checkbox" name="monday" [(ngModel)]="calenderBus.monday"> 
+										{{l("monday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="CalenderBus_tuesday" class="m-checkbox">
+										<input id="CalenderBus_tuesday" type="checkbox" name="tuesday" [(ngModel)]="calenderBus.tuesday"> 
+										{{l("tuesday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="CalenderBus_wednesday" class="m-checkbox">
+										<input id="CalenderBus_wednesday" type="checkbox" name="wednesday" [(ngModel)]="calenderBus.wednesday"> 
+										{{l("wednesday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="CalenderBus_thursday" class="m-checkbox">
+										<input id="CalenderBus_thursday" type="checkbox" name="thursday" [(ngModel)]="calenderBus.thursday"> 
+										{{l("thursday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="CalenderBus_friday" class="m-checkbox">
+										<input id="CalenderBus_friday" type="checkbox" name="friday" [(ngModel)]="calenderBus.friday"> 
+										{{l("friday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="CalenderBus_saturday" class="m-checkbox">
+										<input id="CalenderBus_saturday" type="checkbox" name="saturday" [(ngModel)]="calenderBus.saturday"> 
+										{{l("saturday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="CalenderBus_sunday" class="m-checkbox">
+										<input id="CalenderBus_sunday" type="checkbox" name="sunday" [(ngModel)]="calenderBus.sunday"> 
+										{{l("sunday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="CalenderBus_start_date"  class="col-md-12">{{l("start_date")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="start_date" id="CalenderBus_start_date" name="CalenderBus_start_date">
+									</div>
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="CalenderBus_end_date"  class="col-md-12">{{l("end_date")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="end_date" id="CalenderBus_end_date" name="CalenderBus_end_date">
+									</div>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!calenderBusForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,313 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("TripActual")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("TripActualHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.TripActual.Create')" (click)="createTripActual()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewTripActual")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getTripActual()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="TimeSpanFilter">{{l("TimeSpan")}}</label>
+									<input type="text" class="form-control" id="TimeSpanFilter" name="timeSpanFilter" [(ngModel)]="timeSpanFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinEndStationIDFilter">{{l("MinMax")}} {{l("EndStationID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinEndStationIDFilter" [(ngModel)]="minEndStationIDFilter" placeholder="{{l('MinValue')}}" name="minEndStationIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxEndStationIDFilter" placeholder="{{l('MaxValue')}}" name="maxEndStationIDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinStartStationIDFilter">{{l("MinMax")}} {{l("StartStationID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinStartStationIDFilter" [(ngModel)]="minStartStationIDFilter" placeholder="{{l('MinValue')}}" name="minStartStationIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxStartStationIDFilter" placeholder="{{l('MaxValue')}}" name="maxStartStationIDFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="StartStationFilter">{{l("StartStation")}}</label>
+									<input type="text" class="form-control" id="StartStationFilter" name="startStationFilter" [(ngModel)]="startStationFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="EndStationFilter">{{l("EndStation")}}</label>
+									<input type="text" class="form-control" id="EndStationFilter" name="endStationFilter" [(ngModel)]="endStationFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinTripDateFilter">{{l("MinMax")}} {{l("TripDate")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinTripDateFilter" name="MinTripDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minTripDateFilter">
+                                        <input class="form-control m-input" id="MaxTripDateFilter" name="MaxTripDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxTripDateFilter">
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ControlStartTimeFilter">{{l("ControlStartTime")}}</label>
+									<input type="text" class="form-control" id="ControlStartTimeFilter" name="controlStartTimeFilter" [(ngModel)]="controlStartTimeFilter">
+								</div>
+                            </div>	
+							<div class="col-md-3">
+								<label for="isdoneFilterSelect">{{l("isdone")}}</label>
+								<select class="form-control" name="isdoneFilter" id="isdoneFilterSelect" [(ngModel)]="isdoneFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RouteLineNumberFilter">({{l("Route")}}) {{l("LineNumber")}}</label>
+									<input type="text" class="form-control" id="RouteLineNumberFilter" name="routeLineNumberFilter" [(ngModel)]="routeLineNumberFilter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CalenderBusTenantIdFilter">({{l("CalenderBus")}}) {{l("TenantId")}}</label>
+									<input type="text" class="form-control" id="CalenderBusTenantIdFilter" name="calenderBusTenantIdFilter" [(ngModel)]="calenderBusTenantIdFilter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="TripPlanedTenantIdFilter">({{l("TripPlaned")}}) {{l("TenantId")}}</label>
+									<input type="text" class="form-control" id="TripPlanedTenantIdFilter" name="tripPlanedTenantIdFilter" [(ngModel)]="tripPlanedTenantIdFilter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="TripByMinistryTenantIdFilter">({{l("TripByMinistry")}}) {{l("TenantId")}}</label>
+									<input type="text" class="form-control" id="TripByMinistryTenantIdFilter" name="tripByMinistryTenantIdFilter" [(ngModel)]="tripByMinistryTenantIdFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getTripActual($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.TripActual.Edit', 'Pages.TripActual.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="routeLineNumber">
+                                        {{l('LineNumber')}}
+                                        <p-sortIcon field="routeLineNumber"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="calenderBusTenantId">
+                                        {{l('TenantId')}}
+                                        <p-sortIcon field="calenderBusTenantId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripPlanedTenantId">
+                                        {{l('TenantId')}}
+                                        <p-sortIcon field="tripPlanedTenantId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripByMinistryTenantId">
+                                        {{l('TenantId')}}
+                                        <p-sortIcon field="tripByMinistryTenantId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActual.timeSpan">
+                                        {{l('TimeSpan')}}
+                                        <p-sortIcon field="tripActual.timeSpan"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActual.endStationID">
+                                        {{l('EndStationID')}}
+                                        <p-sortIcon field="tripActual.endStationID"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActual.startStationID">
+                                        {{l('StartStationID')}}
+                                        <p-sortIcon field="tripActual.startStationID"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActual.startStation">
+                                        {{l('StartStation')}}
+                                        <p-sortIcon field="tripActual.startStation"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActual.endStation">
+                                        {{l('EndStation')}}
+                                        <p-sortIcon field="tripActual.endStation"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActual.tripDate">
+                                        {{l('TripDate')}}
+                                        <p-sortIcon field="tripActual.tripDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActual.controlStartTime">
+                                        {{l('ControlStartTime')}}
+                                        <p-sortIcon field="tripActual.controlStartTime"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActual.isdone">
+                                        {{l('isdone')}}
+                                        <p-sortIcon field="tripActual.isdone"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.TripActual.Edit', 'Pages.TripActual.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewTripActualModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.TripActual.Edit')"
+														(click)="createOrEditTripActualModal.show(record.tripActual.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.TripActual.Delete')"
+														(click)="deleteTripActual(record.tripActual)">{{l('Delete')}}</a>
+												</li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="entityHistoryEnabled"
+                                                       (click)="showHistory(record.tripActual)">{{l('History')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('LineNumber')}}</span>
+												{{record.routeLineNumber}}
+											</td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('TenantId')}}</span>
+												{{record.calenderBusTenantId}}
+											</td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('TenantId')}}</span>
+												{{record.tripPlanedTenantId}}
+											</td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('TenantId')}}</span>
+												{{record.tripByMinistryTenantId}}
+											</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('TimeSpan')}}</span>
+											{{record.tripActual.timeSpan}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('EndStationID')}}</span>
+											{{record.tripActual.endStationID}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('StartStationID')}}</span>
+											{{record.tripActual.startStationID}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('StartStation')}}</span>
+											{{record.tripActual.startStation}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('EndStation')}}</span>
+											{{record.tripActual.endStation}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('TripDate')}}</span>
+                                        <span *ngIf="record.tripActual.tripDate">
+											{{record.tripActual.tripDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.tripActual.tripDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ControlStartTime')}}</span>
+											{{record.tripActual.controlStartTime}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('isdone')}}</span>
+                                        <div *ngIf="record.tripActual.isdone" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.tripActual.isdone" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getTripActual($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditTripActualModal #createOrEditTripActualModal (modalSave)="getTripActual()"></createOrEditTripActualModal>
+    <viewTripActualModal #viewTripActualModal></viewTripActualModal>
+     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+</div>

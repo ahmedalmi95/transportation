@@ -1,0 +1,65 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #busInfoForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="busInfo.id">{{l("EditBusInfo")}}</span>
+                        <span *ngIf="!busInfo.id">{{l("CreateNewBusInfo")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="BusInfo_BusNumber">{{l("BusNumber")}}</label>
+									<input type="text" id="BusInfo_BusNumber" class="form-control" [(ngModel)]="busInfo.busNumber" name="BusNumber"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="BusInfo_BusModel">{{l("BusModel")}}</label>
+									<input type="text" id="BusInfo_BusModel" class="form-control" [(ngModel)]="busInfo.busModel" name="BusModel"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="BusInfo_Model">{{l("Model")}}</label>
+									<input type="text" id="BusInfo_Model" class="form-control" [(ngModel)]="busInfo.model" name="Model"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="BusInfo_ChassisNumber">{{l("ChassisNumber")}}</label>
+									<input type="text" id="BusInfo_ChassisNumber" class="form-control" [(ngModel)]="busInfo.chassisNumber" name="ChassisNumber"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="BusInfo_TrackerIEMI">{{l("TrackerIEMI")}}</label>
+									<input type="text" id="BusInfo_TrackerIEMI" class="form-control" [(ngModel)]="busInfo.trackerIEMI" name="TrackerIEMI"    />
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="BusInfo_InsuPolicyNumber"  class="col-md-12">{{l("InsuPolicyNumber")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input required class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="busInfo.insuPolicyNumber._d" id="BusInfo_InsuPolicyNumber" name="BusInfo_InsuPolicyNumber">
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<label for="BusInfo_Capcity">{{l("Capcity")}}</label>
+									<input type="number" id="BusInfo_Capcity" class="form-control" [(ngModel)]="busInfo.capcity" name="Capcity"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!busInfoForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,237 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("BusInfos")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("BusInfosHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.BusInfos.Create')" (click)="createBusInfo()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewBusInfo")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getBusInfos()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="BusNumberFilter">{{l("BusNumber")}}</label>
+									<input type="text" class="form-control" id="BusNumberFilter" name="busNumberFilter" [(ngModel)]="busNumberFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="BusModelFilter">{{l("BusModel")}}</label>
+									<input type="text" class="form-control" id="BusModelFilter" name="busModelFilter" [(ngModel)]="busModelFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ModelFilter">{{l("Model")}}</label>
+									<input type="text" class="form-control" id="ModelFilter" name="modelFilter" [(ngModel)]="modelFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ChassisNumberFilter">{{l("ChassisNumber")}}</label>
+									<input type="text" class="form-control" id="ChassisNumberFilter" name="chassisNumberFilter" [(ngModel)]="chassisNumberFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="TrackerIEMIFilter">{{l("TrackerIEMI")}}</label>
+									<input type="text" class="form-control" id="TrackerIEMIFilter" name="trackerIEMIFilter" [(ngModel)]="trackerIEMIFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinInsuPolicyNumberFilter">{{l("MinMax")}} {{l("InsuPolicyNumber")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinInsuPolicyNumberFilter" name="MinInsuPolicyNumberFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minInsuPolicyNumberFilter">
+                                        <input class="form-control m-input" id="MaxInsuPolicyNumberFilter" name="MaxInsuPolicyNumberFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxInsuPolicyNumberFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinCapcityFilter">{{l("MinMax")}} {{l("Capcity")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinCapcityFilter" [(ngModel)]="minCapcityFilter" placeholder="{{l('MinValue')}}" name="minCapcityFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxCapcityFilter" placeholder="{{l('MaxValue')}}" name="maxCapcityFilter" />
+									</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getBusInfos($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.BusInfos.Edit', 'Pages.BusInfos.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="busInfo.busNumber">
+                                        {{l('BusNumber')}}
+                                        <p-sortIcon field="busInfo.busNumber"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="busInfo.busModel">
+                                        {{l('BusModel')}}
+                                        <p-sortIcon field="busInfo.busModel"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="busInfo.model">
+                                        {{l('Model')}}
+                                        <p-sortIcon field="busInfo.model"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="busInfo.chassisNumber">
+                                        {{l('ChassisNumber')}}
+                                        <p-sortIcon field="busInfo.chassisNumber"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="busInfo.trackerIEMI">
+                                        {{l('TrackerIEMI')}}
+                                        <p-sortIcon field="busInfo.trackerIEMI"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="busInfo.insuPolicyNumber">
+                                        {{l('InsuPolicyNumber')}}
+                                        <p-sortIcon field="busInfo.insuPolicyNumber"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="busInfo.capcity">
+                                        {{l('Capcity')}}
+                                        <p-sortIcon field="busInfo.capcity"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.BusInfos.Edit', 'Pages.BusInfos.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewBusInfoModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.BusInfos.Edit')"
+														(click)="createOrEditBusInfoModal.show(record.busInfo.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.BusInfos.Delete')"
+														(click)="deleteBusInfo(record.busInfo)">{{l('Delete')}}</a>
+												</li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="entityHistoryEnabled"
+                                                       (click)="showHistory(record.busInfo)">{{l('History')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('BusNumber')}}</span>
+											{{record.busInfo.busNumber}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('BusModel')}}</span>
+											{{record.busInfo.busModel}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Model')}}</span>
+											{{record.busInfo.model}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ChassisNumber')}}</span>
+											{{record.busInfo.chassisNumber}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('TrackerIEMI')}}</span>
+											{{record.busInfo.trackerIEMI}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('InsuPolicyNumber')}}</span>
+                                        <span *ngIf="record.busInfo.insuPolicyNumber">
+											{{record.busInfo.insuPolicyNumber | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.busInfo.insuPolicyNumber">-</span>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Capcity')}}</span>
+											{{record.busInfo.capcity}}
+										</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getBusInfos($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditBusInfoModal #createOrEditBusInfoModal (modalSave)="getBusInfos()"></createOrEditBusInfoModal>
+    <viewBusInfoModal #viewBusInfoModal></viewBusInfoModal>
+     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+</div>

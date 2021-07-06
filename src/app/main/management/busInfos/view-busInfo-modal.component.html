@@ -1,0 +1,67 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <table id="defualt-table">
+                    <tr>
+                        <td>
+                            <b>{{ l("BusNumber") }} </b>
+                        </td>
+                        <td>{{item.busInfo.busNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("BusModel") }} </b>
+                        </td>
+                        <td>{{item.busInfo.busModel}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("Model") }} </b>
+                        </td>
+                        <td>{{item.busInfo.model}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("ChassisNumber") }} </b>
+                        </td>
+                        <td>{{item.busInfo.chassisNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("TrackerIEMI") }} </b>
+                        </td>
+                        <td>{{item.busInfo.trackerIEMI}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("InsuPolicyNumber") }} </b>
+                        </td>
+                        <td>{{item.busInfo.insuPolicyNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("Capcity") }} </b>
+                        </td>
+                        <td>{{item.busInfo.capcity}}</td>
+                    </tr>
+                    
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

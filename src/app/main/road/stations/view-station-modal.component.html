@@ -1,0 +1,91 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <table id="defualt-table">
+                    <tr>
+                        <td>
+                            <b>{{l("LocationName")}}</b>
+                        </td>
+                        <td> {{item.station.locationName}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("Latitude")}}</b>
+                        </td>
+                        <td>{{ item.station.latitude | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("Longitude")}} </b>
+                        </td>
+                        <td>{{ item.station.longitude | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("IsStop")}} </b>
+                        </td>
+                        <td>{{item.station.isStop}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("StationCode")}}</b>
+                        </td>
+                        <td>{{item.station.stationCode}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("LocationNameHebrew")}}</b>
+                        </td>
+                        <td>{{item.station.locationNameHebrew}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("Type")}}</b>
+                        </td>
+                        <td>{{item.station.type}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("isMark")}}</b>
+                        </td>
+                        <td> {{item.station.isMark}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("IsSave")}}</b>
+                        </td>
+                        <td> {{item.station.isSave}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("checkDistance")}}</b>
+                        </td>
+                        <td>  {{item.station.checkDistance}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{l("IsPath")}}</b>
+                        </td>
+                        <td>{{item.station.isPath}}</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+

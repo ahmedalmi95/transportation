@@ -1,0 +1,55 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #tripPlanedDailyWitHDriverForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="tripPlanedDailyWitHDriver.id">{{l("EditTripPlanedDailyWitHDriver")}}</span>
+                        <span *ngIf="!tripPlanedDailyWitHDriver.id">{{l("CreateNewTripPlanedDailyWitHDriver")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="TripPlanedDailyWitHDriver_TripPlanID">{{l("TripPlanID")}}</label>
+									<input type="number" id="TripPlanedDailyWitHDriver_TripPlanID" class="form-control" [(ngModel)]="tripPlanedDailyWitHDriver.tripPlanID" name="TripPlanID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripPlanedDailyWitHDriver_Driver">{{l("Driver")}}</label>
+									<input type="number" id="TripPlanedDailyWitHDriver_Driver" class="form-control" [(ngModel)]="tripPlanedDailyWitHDriver.driver" name="Driver"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripPlanedDailyWitHDriver_BusID">{{l("BusID")}}</label>
+									<input type="number" id="TripPlanedDailyWitHDriver_BusID" class="form-control" [(ngModel)]="tripPlanedDailyWitHDriver.busID" name="BusID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripPlanedDailyWitHDriver_TaskNo">{{l("TaskNo")}}</label>
+									<input type="number" id="TripPlanedDailyWitHDriver_TaskNo" class="form-control" [(ngModel)]="tripPlanedDailyWitHDriver.taskNo" name="TaskNo"  />
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="TripPlanedDailyWitHDriver_Workingday"  class="col-md-12">{{l("Workingday")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="workingday" id="TripPlanedDailyWitHDriver_Workingday" name="TripPlanedDailyWitHDriver_Workingday">
+									</div>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!tripPlanedDailyWitHDriverForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,294 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #viwTripPlanedForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="viwTripPlaned.id">{{l("EditViwTripPlaned")}}</span>
+                        <span *ngIf="!viwTripPlaned.id">{{l("CreateNewViwTripPlaned")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="ViwTripPlaned_TrpPlanCalnderID">{{l("TrpPlanCalnderID")}}</label>
+									<input type="number" id="ViwTripPlaned_TrpPlanCalnderID" class="form-control" [(ngModel)]="viwTripPlaned.trpPlanCalnderID" name="TrpPlanCalnderID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TrpPlanStartTime">{{l("TrpPlanStartTime")}}</label>
+									<input type="text" id="ViwTripPlaned_TrpPlanStartTime" class="form-control" [(ngModel)]="viwTripPlaned.trpPlanStartTime" name="TrpPlanStartTime"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TrpPlanLineNumber">{{l("TrpPlanLineNumber")}}</label>
+									<input type="number" id="ViwTripPlaned_TrpPlanLineNumber" class="form-control" [(ngModel)]="viwTripPlaned.trpPlanLineNumber" name="TrpPlanLineNumber"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TrpPlanDirection">{{l("TrpPlanDirection")}}</label>
+									<input type="number" id="ViwTripPlaned_TrpPlanDirection" class="form-control" [(ngModel)]="viwTripPlaned.trpPlanDirection" name="TrpPlanDirection"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TrpPlanDriverName">{{l("TrpPlanDriverName")}}</label>
+									<input type="text" id="ViwTripPlaned_TrpPlanDriverName" class="form-control" [(ngModel)]="viwTripPlaned.trpPlanDriverName" name="TrpPlanDriverName"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TrpPlanBusNumber">{{l("TrpPlanBusNumber")}}</label>
+									<input type="text" id="ViwTripPlaned_TrpPlanBusNumber" class="form-control" [(ngModel)]="viwTripPlaned.trpPlanBusNumber" name="TrpPlanBusNumber"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TripMinistryID">{{l("TripMinistryID")}}</label>
+									<input type="number" id="ViwTripPlaned_TripMinistryID" class="form-control" [(ngModel)]="viwTripPlaned.tripMinistryID" name="TripMinistryID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TripMinistryLineNumber">{{l("TripMinistryLineNumber")}}</label>
+									<input type="number" id="ViwTripPlaned_TripMinistryLineNumber" class="form-control" [(ngModel)]="viwTripPlaned.tripMinistryLineNumber" name="TripMinistryLineNumber"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TripMinistryDirection">{{l("TripMinistryDirection")}}</label>
+									<input type="number" id="ViwTripPlaned_TripMinistryDirection" class="form-control" [(ngModel)]="viwTripPlaned.tripMinistryDirection" name="TripMinistryDirection"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TripMinistryCalenderID">{{l("TripMinistryCalenderID")}}</label>
+									<input type="number" id="ViwTripPlaned_TripMinistryCalenderID" class="form-control" [(ngModel)]="viwTripPlaned.tripMinistryCalenderID" name="TripMinistryCalenderID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TripMinistryTimeSpan">{{l("TripMinistryTimeSpan")}}</label>
+									<input type="text" id="ViwTripPlaned_TripMinistryTimeSpan" class="form-control" [(ngModel)]="viwTripPlaned.tripMinistryTimeSpan" name="TripMinistryTimeSpan"    />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TripMinistryMonday" class="m-checkbox">
+										<input id="ViwTripPlaned_TripMinistryMonday" type="checkbox" name="TripMinistryMonday" [(ngModel)]="viwTripPlaned.tripMinistryMonday"> 
+										{{l("TripMinistryMonday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TripMinistryTuesday" class="m-checkbox">
+										<input id="ViwTripPlaned_TripMinistryTuesday" type="checkbox" name="TripMinistryTuesday" [(ngModel)]="viwTripPlaned.tripMinistryTuesday"> 
+										{{l("TripMinistryTuesday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TripMinistryWensday" class="m-checkbox">
+										<input id="ViwTripPlaned_TripMinistryWensday" type="checkbox" name="TripMinistryWensday" [(ngModel)]="viwTripPlaned.tripMinistryWensday"> 
+										{{l("TripMinistryWensday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TripMinistryFriday" class="m-checkbox">
+										<input id="ViwTripPlaned_TripMinistryFriday" type="checkbox" name="TripMinistryFriday" [(ngModel)]="viwTripPlaned.tripMinistryFriday"> 
+										{{l("TripMinistryFriday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TripMinistryThursday" class="m-checkbox">
+										<input id="ViwTripPlaned_TripMinistryThursday" type="checkbox" name="TripMinistryThursday" [(ngModel)]="viwTripPlaned.tripMinistryThursday"> 
+										{{l("TripMinistryThursday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TripMinistrySaturday" class="m-checkbox">
+										<input id="ViwTripPlaned_TripMinistrySaturday" type="checkbox" name="TripMinistrySaturday" [(ngModel)]="viwTripPlaned.tripMinistrySaturday"> 
+										{{l("TripMinistrySaturday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TripMinistrySunday" class="m-checkbox">
+										<input id="ViwTripPlaned_TripMinistrySunday" type="checkbox" name="TripMinistrySunday" [(ngModel)]="viwTripPlaned.tripMinistrySunday"> 
+										{{l("TripMinistrySunday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="ViwTripPlaned_TripMinistryStart_date"  class="col-md-12">{{l("TripMinistryStart_date")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="tripMinistryStart_date" id="ViwTripPlaned_TripMinistryStart_date" name="ViwTripPlaned_TripMinistryStart_date">
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TripMinistryRouteID">{{l("TripMinistryRouteID")}}</label>
+									<input type="number" id="ViwTripPlaned_TripMinistryRouteID" class="form-control" [(ngModel)]="viwTripPlaned.tripMinistryRouteID" name="TripMinistryRouteID"  />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TrpPlanmonday" class="m-checkbox">
+										<input id="ViwTripPlaned_TrpPlanmonday" type="checkbox" name="TrpPlanmonday" [(ngModel)]="viwTripPlaned.trpPlanmonday"> 
+										{{l("TrpPlanmonday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TrpPlanTuesday" class="m-checkbox">
+										<input id="ViwTripPlaned_TrpPlanTuesday" type="checkbox" name="TrpPlanTuesday" [(ngModel)]="viwTripPlaned.trpPlanTuesday"> 
+										{{l("TrpPlanTuesday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TrpPlanWensday" class="m-checkbox">
+										<input id="ViwTripPlaned_TrpPlanWensday" type="checkbox" name="TrpPlanWensday" [(ngModel)]="viwTripPlaned.trpPlanWensday"> 
+										{{l("TrpPlanWensday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TrpPlanthursday" class="m-checkbox">
+										<input id="ViwTripPlaned_TrpPlanthursday" type="checkbox" name="TrpPlanthursday" [(ngModel)]="viwTripPlaned.trpPlanthursday"> 
+										{{l("TrpPlanthursday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TrpPlanfriday" class="m-checkbox">
+										<input id="ViwTripPlaned_TrpPlanfriday" type="checkbox" name="TrpPlanfriday" [(ngModel)]="viwTripPlaned.trpPlanfriday"> 
+										{{l("TrpPlanfriday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TrpPlansaturday" class="m-checkbox">
+										<input id="ViwTripPlaned_TrpPlansaturday" type="checkbox" name="TrpPlansaturday" [(ngModel)]="viwTripPlaned.trpPlansaturday"> 
+										{{l("TrpPlansaturday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TrpPlansunday" class="m-checkbox">
+										<input id="ViwTripPlaned_TrpPlansunday" type="checkbox" name="TrpPlansunday" [(ngModel)]="viwTripPlaned.trpPlansunday"> 
+										{{l("TrpPlansunday")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="ViwTripPlaned_TrpPlanStart_date"  class="col-md-12">{{l("TrpPlanStart_date")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="trpPlanStart_date" id="ViwTripPlaned_TrpPlanStart_date" name="ViwTripPlaned_TrpPlanStart_date">
+									</div>
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="ViwTripPlaned_TrpPlanEnd_date"  class="col-md-12">{{l("TrpPlanEnd_date")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="trpPlanEnd_date" id="ViwTripPlaned_TrpPlanEnd_date" name="ViwTripPlaned_TrpPlanEnd_date">
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TrpPlanTaskNo">{{l("TrpPlanTaskNo")}}</label>
+									<input type="number" id="ViwTripPlaned_TrpPlanTaskNo" class="form-control" [(ngModel)]="viwTripPlaned.trpPlanTaskNo" name="TrpPlanTaskNo"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TripPlanedID">{{l("TripPlanedID")}}</label>
+									<input type="number" id="ViwTripPlaned_TripPlanedID" class="form-control" [(ngModel)]="viwTripPlaned.tripPlanedID" name="TripPlanedID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_DriverIDPPlaned">{{l("DriverIDPPlaned")}}</label>
+									<input type="number" id="ViwTripPlaned_DriverIDPPlaned" class="form-control" [(ngModel)]="viwTripPlaned.driverIDPPlaned" name="DriverIDPPlaned"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_BUSIDPlanlned">{{l("BUSIDPlanlned")}}</label>
+									<input type="number" id="ViwTripPlaned_BUSIDPlanlned" class="form-control" [(ngModel)]="viwTripPlaned.busidPlanlned" name="BUSIDPlanlned"  />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ViwTripPlaned_TrpPlanISValid" class="m-checkbox">
+										<input id="ViwTripPlaned_TrpPlanISValid" type="checkbox" name="TrpPlanISValid" [(ngModel)]="viwTripPlaned.trpPlanISValid"> 
+										{{l("TrpPlanISValid")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TrpPlanEndTime">{{l("TrpPlanEndTime")}}</label>
+									<input type="text" id="ViwTripPlaned_TrpPlanEndTime" class="form-control" [(ngModel)]="viwTripPlaned.trpPlanEndTime" name="TrpPlanEndTime"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_TrpPlanRouteID">{{l("TrpPlanRouteID")}}</label>
+									<input type="number" id="ViwTripPlaned_TrpPlanRouteID" class="form-control" [(ngModel)]="viwTripPlaned.trpPlanRouteID" name="TrpPlanRouteID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_CalenderID">{{l("CalenderID")}}</label>
+									<input type="number" id="ViwTripPlaned_CalenderID" class="form-control" [(ngModel)]="viwTripPlaned.calenderID" name="CalenderID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_ViwTripPlanedDaily">{{l("ViwTripPlanedDaily")}}</label>
+									<input type="number" id="ViwTripPlaned_ViwTripPlanedDaily" class="form-control" [(ngModel)]="viwTripPlaned.viwTripPlanedDaily" name="ViwTripPlanedDaily"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_CatSedor">{{l("CatSedor")}}</label>
+									<input type="text" id="ViwTripPlaned_CatSedor" class="form-control" [(ngModel)]="viwTripPlaned.catSedor" name="CatSedor"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_Notes">{{l("Notes")}}</label>
+									<input type="text" id="ViwTripPlaned_Notes" class="form-control" [(ngModel)]="viwTripPlaned.notes" name="Notes"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_BusGroup">{{l("BusGroup")}}</label>
+									<input type="text" id="ViwTripPlaned_BusGroup" class="form-control" [(ngModel)]="viwTripPlaned.busGroup" name="BusGroup"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_Driver">{{l("Driver")}}</label>
+									<input type="number" id="ViwTripPlaned_Driver" class="form-control" [(ngModel)]="viwTripPlaned.driver" name="Driver"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ViwTripPlaned_BusID">{{l("BusID")}}</label>
+									<input type="number" id="ViwTripPlaned_BusID" class="form-control" [(ngModel)]="viwTripPlaned.busID" name="BusID"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!viwTripPlanedForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,129 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #tripActualForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="tripActual.id">{{l("EditTripActual")}}</span>
+                        <span *ngIf="!tripActual.id">{{l("CreateNewTripActual")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="RouteLineNumber">{{l("Route")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="RouteLineNumber" name="routeLineNumber" [(ngModel)]="routeLineNumber" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectRouteModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setRouteIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="tripActual.routeId" [(ngModel)]="tripActual.routeId" type="text"  hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="CalenderBusTenantId">{{l("CalenderBus")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="CalenderBusTenantId" name="calenderBusTenantId" [(ngModel)]="calenderBusTenantId" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectCalenderBusModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setCalenderBusIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="tripActual.calenderBusId" [(ngModel)]="tripActual.calenderBusId" type="text"  hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="TripPlanedTenantId">{{l("TripPlaned")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="TripPlanedTenantId" name="tripPlanedTenantId" [(ngModel)]="tripPlanedTenantId" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectTripPlanedModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setTripPlanedIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="tripActual.tripPlanedId" [(ngModel)]="tripActual.tripPlanedId" type="text"  hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="TripByMinistryTenantId">{{l("TripByMinistry")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="TripByMinistryTenantId" name="tripByMinistryTenantId" [(ngModel)]="tripByMinistryTenantId" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectTripByMinistryModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setTripByMinistryIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="tripActual.tripByMinistryId" [(ngModel)]="tripActual.tripByMinistryId" type="text"  hidden>
+		 
+
+								<div class="form-group">
+									<label for="TripActual_TimeSpan">{{l("TimeSpan")}}</label>
+									<input type="text" id="TripActual_TimeSpan" class="form-control" [(ngModel)]="tripActual.timeSpan" name="TimeSpan"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActual_EndStationID">{{l("EndStationID")}}</label>
+									<input type="number" id="TripActual_EndStationID" class="form-control" [(ngModel)]="tripActual.endStationID" name="EndStationID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActual_StartStationID">{{l("StartStationID")}}</label>
+									<input type="number" id="TripActual_StartStationID" class="form-control" [(ngModel)]="tripActual.startStationID" name="StartStationID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActual_StartStation">{{l("StartStation")}}</label>
+									<input type="text" id="TripActual_StartStation" class="form-control" [(ngModel)]="tripActual.startStation" name="StartStation"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActual_EndStation">{{l("EndStation")}}</label>
+									<input type="text" id="TripActual_EndStation" class="form-control" [(ngModel)]="tripActual.endStation" name="EndStation"    />
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="TripActual_TripDate"  class="col-md-12">{{l("TripDate")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="tripDate" id="TripActual_TripDate" name="TripActual_TripDate">
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActual_ControlStartTime">{{l("ControlStartTime")}}</label>
+									<input type="text" id="TripActual_ControlStartTime" class="form-control" [(ngModel)]="tripActual.controlStartTime" name="ControlStartTime"    />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="TripActual_isdone" class="m-checkbox">
+										<input id="TripActual_isdone" type="checkbox" name="isdone" [(ngModel)]="tripActual.isdone"> 
+										{{l("isdone")}}
+										<span></span>
+									</label>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!tripActualForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<routeLookupTableModal #routeLookupTableModal (modalSave)="getNewRouteId()"></routeLookupTableModal>
+		 <calenderBusLookupTableModal #calenderBusLookupTableModal (modalSave)="getNewCalenderBusId()"></calenderBusLookupTableModal>
+		 <tripPlanedLookupTableModal #tripPlanedLookupTableModal (modalSave)="getNewTripPlanedId()"></tripPlanedLookupTableModal>
+		 <tripByMinistryLookupTableModal #tripByMinistryLookupTableModal (modalSave)="getNewTripByMinistryId()"></tripByMinistryLookupTableModal>
+		 
+</div>

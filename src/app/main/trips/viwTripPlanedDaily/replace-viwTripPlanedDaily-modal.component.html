@@ -1,0 +1,232 @@
+<div
+    bsModal
+    #createOrEditModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    [config]="{backdrop: 'static'}"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form
+                *ngIf="active"
+                #viwTripPlanedDailyForm="ngForm"
+                novalidate
+                (ngSubmit)="save()"
+                autocomplete="off"
+            >
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{l("ReplaceTasks")}}</span>
+                    </h4>
+                    <button
+                        type="button"
+                        class="close"
+                        (click)="close()"
+                        aria-label="Close"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+
+
+
+
+                    <div class="form-group">
+                        <label for="taskno">{{l("TrpPlanTaskNo")}}</label>
+                        <input
+                            type="number"
+                            id="taskno"
+                            class="form-control"
+                            [(ngModel)]="taskno"
+                            name="taskno"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="oldbusId">Old {{l("TrpPlanBusNumber")}}</label>
+                        <input
+                            type="text"
+                            id="oldbusId"
+                            class="form-control"
+                            [(ngModel)]="oldbusId"
+                            name="oldbusId"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="oldbusId">New {{l("TrpPlanBusNumber")}}</label>
+                        <input
+                            type="text"
+                            id="newBusId"
+                            class="form-control"
+                            [(ngModel)]="newBusId"
+                            name="newBusId"
+                        >
+                    </div>
+
+
+
+
+
+                    <div class="form-group staffs-div">
+                        <label for="newDriverID">Old {{l("TrpPlanDriverName")}}</label>
+                        <p-dropdown
+                            [options]="staffs"
+                            class="w-100"
+                            name="oldDriverId"
+                            [(ngModel)]="oldDriverId"
+                            [filter]="true"
+                        ></p-dropdown>
+                    </div>
+
+
+
+
+                    <div class="form-group staffs-div">
+                        <label for="newDriverID">New {{l("TrpPlanDriverName")}}</label>
+                        <p-dropdown
+                            [options]="staffs"
+                            class="w-100"
+                            name="newDriverID"
+                            [(ngModel)]="newDriverID"
+                            [filter]="true"
+                        ></p-dropdown>
+                    </div>
+
+
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button
+                        [disabled]="saving"
+                        type="button"
+                        class="btn btn-default"
+                        (click)="close()"
+                    >
+                        {{l("Cancel")}}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary blue"
+                        [disabled]="!viwTripPlanedDailyForm.form.valid"
+                        [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')"
+                    >
+                        <i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span>
+                    </button>
+                </div>
+
+
+
+
+
+                <div class="row align-items-center"  >
+                        <!--<Primeng-Datatable-Start>-->
+                        <div class="primeng-datatable-container"
+                             [busyIf]="primengTableHelper.isLoading">
+                            <p-table  #dataTable
+                                         (onLazyLoad)="getTripDataByBus($event)"
+                                         [value]="primengTableHelper.records"
+                                         rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         [paginator]="false"
+                                         [lazy]="true"
+                                         [scrollable]="true"
+                                         ScrollWidth="100%"
+                                         [responsive]="primengTableHelper.isResponsive"
+                                         [resizableColumns]="primengTableHelper.resizableColumns">
+                                <ng-template pTemplate="header" >
+                                    <tr>
+                                            <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TrpPlanDriverName">
+                                                {{l('TrpPlanDriverName')}}
+                                                <p-sortIcon field="viwTripPlanedDaily.trpPlanDriverName"></p-sortIcon>
+                                            </th>
+                                            <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.trpPlanTaskNo">
+                                                    {{l('TrpPlanTaskNo')}}
+                                                </th>
+                                            <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.trpPlanBusNumber">
+                                                {{l('TrpPlanBusNumber')}}
+                                                <p-sortIcon field="viwTripPlanedDaily.TrpPlanBusNumber"></p-sortIcon>
+                                            </th>
+                                   
+    
+                                            <th scope="col" class=" p-2" [hidden]="!isGrantedAny('Pages.ViwTripPlanedDaily.Edit',
+                                            'Pages.ViwTripPlanedDaily.Delete')">{{l('Actions')}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-record="$implicit">
+    
+                                    <tr>
+                                        <td class=" p-2" scope="col">
+                                            <span class="ui-column-title"> {{l('TrpPlanDriverName')}}</span>
+                                            {{record.viwTripPlanedDaily.trpPlanDriverName}}
+                                        </td>
+                                        <td  class=" p-2" scope="col">
+                                                <span class="ui-column-title"> {{l('TrpPlanTaskNo')}}</span>
+                                                {{record.viwTripPlanedDaily.trpPlanTaskNo}}
+                                            </td>
+                                        <td class=" p-2"  scope="col" >
+                                            <span class="ui-column-title"> {{l('TrpPlanBusNumber')}}</span>
+                                            {{record.viwTripPlanedDaily.busID}}
+                                        </td>
+                                 
+                                        <td class=" p-2"
+                                            [hidden]="!isGrantedAny('Pages.ViwTripPlanedDaily.Edit', 'Pages.ViwTripPlanedDaily.Delete')">
+                                            <div class="btn-group dropdown" dropdown container="body">
+                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                    <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                                </button>
+                                                <ul class="dropdown-menu"  *dropdownMenu>
+                                                    <li>
+                                                        <a href="javascript:;"
+                                                           (click)="viewViwTripPlanedDailyModal.show(record)">{{l('View')}}</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;" *ngIf="permission.isGranted('Pages.ViwTripPlanedDaily.Edit')"
+                                                           (click)="createOrEditViwTripPlanedDailyModal.show(record.viwTripPlanedDaily.id)">{{l('Edit')}}</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;" *ngIf="permission.isGranted('Pages.ViwTripPlanedDaily.Delete')"
+                                                           (click)="deleteViwTripPlanedDaily(record.viwTripPlanedDaily)">{{l('Delete')}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+    
+                           </ng-template>
+                            </p-table>
+                            <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                {{l('NoData')}}
+                            </div>
+    
+                        <div class="primeng-paging-container">
+                                <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                             #paginator
+                                             (onPageChange)="getViwTripPlanedDaily($event)"
+                                             [totalRecords]="primengTableHelper.totalRecordsCount"
+                                             [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                                </p-paginator>
+                                <span class="total-records-count">
+                                    {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                                </span>
+                            </div>
+                        </div>
+                        <!--<Primeng-Datatable-End>-->
+                    </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+</div>

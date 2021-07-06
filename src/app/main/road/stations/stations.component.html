@@ -1,0 +1,785 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{ l("Stations") }}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{ l("StationsHeaderInfo") }}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+                <button
+                    (click)="exportToExcel()"
+                    class="btn btn-outline-success"
+                >
+                    <i class="fa fa-file-excel"></i> {{ l("ExportToExcel") }}
+                </button>
+                <button
+                    *ngIf="isGranted('Pages.Stations.Create')"
+                    (click)="createStation()"
+                    class="btn btn-primary blue"
+                >
+                    <i class="fa fa-plus"></i> {{ l("CreateNewStation") }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div
+                                    class="
+                                        form-group
+                                        m-form__group
+                                        align-items-center
+                                    "
+                                >
+                                    <div class="input-group">
+                                        <input
+                                            [(ngModel)]="filterText"
+                                            name="filterText"
+                                            autoFocus
+                                            class="form-control m-input"
+                                            [placeholder]="
+                                                l('SearchWithThreeDot')
+                                            "
+                                            type="text"
+                                        />
+                                        <span class="input-group-btn">
+                                            <button
+                                                (click)="getStations()"
+                                                class="btn btn-primary"
+                                                type="submit"
+                                            >
+                                                <i
+                                                    class="flaticon-search-1"
+                                                ></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="row m--margin-bottom-10"
+                            [hidden]="!advancedFiltersAreShown"
+                        >
+                            <div class="col-md-12">
+                                <div
+                                    class="m-separator m-separator--dashed"
+                                ></div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="LocationNameFilter">{{
+                                        l("LocationName")
+                                    }}</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="LocationNameFilter"
+                                        name="locationNameFilter"
+                                        [(ngModel)]="locationNameFilter"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinLatitudeFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("Latitude") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinLatitudeFilter"
+                                            [(ngModel)]="minLatitudeFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minLatitudeFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxLatitudeFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxLatitudeFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinLongitudeFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("Longitude") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinLongitudeFilter"
+                                            [(ngModel)]="minLongitudeFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minLongitudeFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxLongitudeFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxLongitudeFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="IsStopFilterSelect">{{
+                                    l("IsStop")
+                                }}</label>
+                                <select
+                                    class="form-control"
+                                    name="IsStopFilter"
+                                    id="IsStopFilterSelect"
+                                    [(ngModel)]="isStopFilter"
+                                >
+                                    <option value="-1">{{ l("All") }}</option>
+                                    <option value="0">{{ l("False") }}</option>
+                                    <option value="1">{{ l("True") }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinStationCodeFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("StationCode") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MinStationCodeFilter"
+                                            [(ngModel)]="minStationCodeFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="minStationCodeFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxStationCodeFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxStationCodeFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="LocationNameHebrewFilter">{{
+                                        l("LocationNameHebrew")
+                                    }}</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="LocationNameHebrewFilter"
+                                        name="locationNameHebrewFilter"
+                                        [(ngModel)]="locationNameHebrewFilter"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="TypeFilter">{{
+                                        l("Type")
+                                    }}</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="TypeFilter"
+                                        name="typeFilter"
+                                        [(ngModel)]="typeFilter"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="isMarkFilterSelect">{{
+                                    l("isMark")
+                                }}</label>
+                                <select
+                                    class="form-control"
+                                    name="isMarkFilter"
+                                    id="isMarkFilterSelect"
+                                    [(ngModel)]="isMarkFilter"
+                                >
+                                    <option value="-1">{{ l("All") }}</option>
+                                    <option value="0">{{ l("False") }}</option>
+                                    <option value="1">{{ l("True") }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="IsSaveFilterSelect">{{
+                                    l("IsSave")
+                                }}</label>
+                                <select
+                                    class="form-control"
+                                    name="IsSaveFilter"
+                                    id="IsSaveFilterSelect"
+                                    [(ngModel)]="isSaveFilter"
+                                >
+                                    <option value="-1">{{ l("All") }}</option>
+                                    <option value="0">{{ l("False") }}</option>
+                                    <option value="1">{{ l("True") }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MincheckDistanceFilter"
+                                        >{{ l("MinMax") }}
+                                        {{ l("checkDistance") }}</label
+                                    >
+                                    <div class="input-group">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="MincheckDistanceFilter"
+                                            [(ngModel)]="mincheckDistanceFilter"
+                                            placeholder="{{ l('MinValue') }}"
+                                            name="mincheckDistanceFilter"
+                                        />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            [(ngModel)]="maxcheckDistanceFilter"
+                                            placeholder="{{ l('MaxValue') }}"
+                                            name="maxcheckDistanceFilter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="IsPathFilterSelect">{{
+                                    l("IsPath")
+                                }}</label>
+                                <select
+                                    class="form-control"
+                                    name="IsPathFilter"
+                                    id="IsPathFilterSelect"
+                                    [(ngModel)]="isPathFilter"
+                                >
+                                    <option value="-1">{{ l("All") }}</option>
+                                    <option value="0">{{ l("False") }}</option>
+                                    <option value="1">{{ l("True") }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span
+                                    class="clickable-item text-muted"
+                                    *ngIf="!advancedFiltersAreShown"
+                                    (click)="
+                                        advancedFiltersAreShown =
+                                            !advancedFiltersAreShown
+                                    "
+                                    ><i class="fa fa-angle-down"></i>
+                                    {{ l("ShowAdvancedFilters") }}</span
+                                >
+                                <span
+                                    class="clickable-item text-muted"
+                                    *ngIf="advancedFiltersAreShown"
+                                    (click)="
+                                        advancedFiltersAreShown =
+                                            !advancedFiltersAreShown
+                                    "
+                                    ><i class="fa fa-angle-up"></i>
+                                    {{ l("HideAdvancedFilters") }}</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div>
+                    <ng-select
+                        [items]="items"
+                        bindLabel="name"
+                        [(ngModel)]="selectedItems"
+                        [multiple]="true"
+                        placeholder="Select columns to hide"
+                        (change)="changeFunction(selectedItems)"
+                    >
+                    </ng-select>
+                </div>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div
+                        class="primeng-datatable-container"
+                        [busyIf]="primengTableHelper.isLoading"
+                    >
+                        <p-table
+                            #dataTable
+                            (onLazyLoad)="getStations($event)"
+                            [value]="primengTableHelper.records"
+                            rows="{{
+                                primengTableHelper.defaultRecordsCountPerPage
+                            }}"
+                            [paginator]="false"
+                            [lazy]="true"
+                            [scrollable]="true"
+                            ScrollWidth="100%"
+                            [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="
+                                primengTableHelper.resizableColumns
+                            "
+                        >
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th
+                                        style="width: 130px"
+                                        [hidden]="
+                                            !isGrantedAny(
+                                                'Pages.Stations.Edit',
+                                                'Pages.Stations.Delete'
+                                            )
+                                        "
+                                    >
+                                        {{ l("Actions") }}
+                                    </th>
+                                    <th
+                                        style="width: 150px"
+                                        pSortableColumn="station.locationName"
+                                        [hidden]="islocationName"
+                                    >
+                                        {{ l("LocationName") }}
+                                        <p-sortIcon
+                                            field="station.locationName"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="islatitude"
+                                        style="width: 150px"
+                                        pSortableColumn="station.latitude"
+                                    >
+                                        {{ l("Latitude") }}
+                                        <p-sortIcon
+                                            field="station.latitude"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="islongitude"
+                                        style="width: 150px"
+                                        pSortableColumn="station.longitude"
+                                    >
+                                        {{ l("Longitude") }}
+                                        <p-sortIcon
+                                            field="station.longitude"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="isisStop"
+                                        style="width: 150px"
+                                        pSortableColumn="station.isStop"
+                                    >
+                                        {{ l("IsStop") }}
+                                        <p-sortIcon
+                                            field="station.isStop"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="isstationCode"
+                                        style="width: 150px"
+                                        pSortableColumn="station.stationCode"
+                                    >
+                                        {{ l("StationCode") }}
+                                        <p-sortIcon
+                                            field="station.stationCode"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="islocationNameHebrew"
+                                        style="width: 150px"
+                                        pSortableColumn="station.locationNameHebrew"
+                                    >
+                                        {{ l("LocationNameHebrew") }}
+                                        <p-sortIcon
+                                            field="station.locationNameHebrew"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="istype"
+                                        style="width: 150px"
+                                        pSortableColumn="station.type"
+                                    >
+                                        {{ l("Type") }}
+                                        <p-sortIcon
+                                            field="station.type"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="isisMark"
+                                        style="width: 150px"
+                                        pSortableColumn="station.isMark"
+                                    >
+                                        {{ l("isMark") }}
+                                        <p-sortIcon
+                                            field="station.isMark"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="isisSave"
+                                        style="width: 150px"
+                                        pSortableColumn="station.isSave"
+                                    >
+                                        {{ l("IsSave") }}
+                                        <p-sortIcon
+                                            field="station.isSave"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="ischeckDistance"
+                                        style="width: 150px"
+                                        pSortableColumn="station.checkDistance"
+                                    >
+                                        {{ l("checkDistance") }}
+                                        <p-sortIcon
+                                            field="station.checkDistance"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th
+                                        [hidden]="isisPath"
+                                        style="width: 150px"
+                                        pSortableColumn="station.isPath"
+                                    >
+                                        {{ l("IsPath") }}
+                                        <p-sortIcon
+                                            field="station.isPath"
+                                        ></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template
+                                pTemplate="body"
+                                let-record="$implicit"
+                            >
+                                <tr>
+                                    <td
+                                        style="width: 130px"
+                                        [hidden]="
+                                            !isGrantedAny(
+                                                'Pages.Stations.Edit',
+                                                'Pages.Stations.Delete'
+                                            )
+                                        "
+                                    >
+                                        <div
+                                            class="btn-group dropdown"
+                                            dropdown
+                                            container="body"
+                                        >
+                                            <button
+                                                class="
+                                                    dropdown-toggle
+                                                    btn btn-sm btn-primary
+                                                "
+                                                dropdownToggle
+                                            >
+                                                <i class="fa fa-cog"></i
+                                                ><span class="caret"></span>
+                                                {{ l("Actions") }}
+                                            </button>
+                                            <ul
+                                                class="dropdown-menu"
+                                                *dropdownMenu
+                                            >
+                                                <li>
+                                                    <a
+                                                        href="javascript:;"
+                                                        (click)="
+                                                            viewStationModal.show(
+                                                                record
+                                                            )
+                                                        "
+                                                        >{{ l("View") }}</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="javascript:;"
+                                                        *ngIf="
+                                                            permission.isGranted(
+                                                                'Pages.Stations.Edit'
+                                                            )
+                                                        "
+                                                        (click)="
+                                                            createOrEditStationModal.show(
+                                                                record.station
+                                                                    .id
+                                                            )
+                                                        "
+                                                        >{{ l("Edit") }}</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="javascript:;"
+                                                        *ngIf="
+                                                            permission.isGranted(
+                                                                'Pages.Stations.Delete'
+                                                            )
+                                                        "
+                                                        (click)="
+                                                            deleteStation(
+                                                                record.station
+                                                            )
+                                                        "
+                                                        >{{ l("Delete") }}</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="javascript:;"
+                                                        *ngIf="
+                                                            entityHistoryEnabled
+                                                        "
+                                                        (click)="
+                                                            showHistory(
+                                                                record.station
+                                                            )
+                                                        "
+                                                        >{{ l("History") }}</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="islocationName"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("LocationName") }}</span
+                                        >
+                                        {{ record.station.locationName }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="islatitude"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("Latitude") }}</span
+                                        >
+                                        {{ record.station.latitude }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="islongitude"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("Longitude") }}</span
+                                        >
+                                        {{ record.station.longitude }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="isisStop"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("IsStop") }}</span
+                                        >
+                                        <div
+                                            *ngIf="record.station.isStop"
+                                            class="text-center"
+                                        >
+                                            <i
+                                                class="
+                                                    fa fa-check-circle
+                                                    m--font-success
+                                                "
+                                                title="True"
+                                            ></i>
+                                        </div>
+                                        <div
+                                            *ngIf="!record.station.isStop"
+                                            class="text-center"
+                                        >
+                                            <i
+                                                class="fa fa-times-circle"
+                                                title="False"
+                                            ></i>
+                                        </div>
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="isstationCode"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("StationCode") }}</span
+                                        >
+                                        {{ record.station.stationCode }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="islocationNameHebrew"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("LocationNameHebrew") }}</span
+                                        >
+                                        {{ record.station.locationNameHebrew }}
+                                    </td>
+                                    <td style="width: 150px" [hidden]="istype">
+                                        <span class="ui-column-title">
+                                            {{ l("Type") }}</span
+                                        >
+                                        {{ record.station.type }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="isisMark"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("isMark") }}</span
+                                        >
+                                        <div
+                                            *ngIf="record.station.isMark"
+                                            class="text-center"
+                                        >
+                                            <i
+                                                class="
+                                                    fa fa-check-circle
+                                                    m--font-success
+                                                "
+                                                title="True"
+                                            ></i>
+                                        </div>
+                                        <div
+                                            *ngIf="!record.station.isMark"
+                                            class="text-center"
+                                        >
+                                            <i
+                                                class="fa fa-times-circle"
+                                                title="False"
+                                            ></i>
+                                        </div>
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="isisSave"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("IsSave") }}</span
+                                        >
+                                        <div
+                                            *ngIf="record.station.isSave"
+                                            class="text-center"
+                                        >
+                                            <i
+                                                class="
+                                                    fa fa-check-circle
+                                                    m--font-success
+                                                "
+                                                title="True"
+                                            ></i>
+                                        </div>
+                                        <div
+                                            *ngIf="!record.station.isSave"
+                                            class="text-center"
+                                        >
+                                            <i
+                                                class="fa fa-times-circle"
+                                                title="False"
+                                            ></i>
+                                        </div>
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="ischeckDistance"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("checkDistance") }}</span
+                                        >
+                                        {{ record.station.checkDistance }}
+                                    </td>
+                                    <td
+                                        style="width: 150px"
+                                        [hidden]="isisPath"
+                                    >
+                                        <span class="ui-column-title">
+                                            {{ l("IsPath") }}</span
+                                        >
+                                        <div
+                                            *ngIf="record.station.isPath"
+                                            class="text-center"
+                                        >
+                                            <i
+                                                class="
+                                                    fa fa-check-circle
+                                                    m--font-success
+                                                "
+                                                title="True"
+                                            ></i>
+                                        </div>
+                                        <div
+                                            *ngIf="!record.station.isPath"
+                                            class="text-center"
+                                        >
+                                            <i
+                                                class="fa fa-times-circle"
+                                                title="False"
+                                            ></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div
+                            class="primeng-no-data"
+                            *ngIf="primengTableHelper.totalRecordsCount == 0"
+                        >
+                            {{ l("NoData") }}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator
+                                rows="{{
+                                    primengTableHelper.defaultRecordsCountPerPage
+                                }}"
+                                #paginator
+                                (onPageChange)="getStations($event)"
+                                [totalRecords]="
+                                    primengTableHelper.totalRecordsCount
+                                "
+                                [rowsPerPageOptions]="
+                                    primengTableHelper.predefinedRecordsCountPerPage
+                                "
+                            >
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{
+                                    l(
+                                        "TotalRecordsCount",
+                                        primengTableHelper.totalRecordsCount
+                                    )
+                                }}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditStationModal
+        #createOrEditStationModal
+        (modalSave)="getStations()"
+    ></createOrEditStationModal>
+    <viewStationModal #viewStationModal></viewStationModal>
+    <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+</div>

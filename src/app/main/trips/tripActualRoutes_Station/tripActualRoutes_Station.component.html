@@ -1,0 +1,274 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("TripActualRoutes_Station")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("TripActualRoutes_StationHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.TripActualRoutes_Station.Create')" (click)="createTripActualRoutes_Station()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewTripActualRoutes_Station")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getTripActualRoutes_Station()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinRoutesIDFilter">{{l("MinMax")}} {{l("RoutesID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinRoutesIDFilter" [(ngModel)]="minRoutesIDFilter" placeholder="{{l('MinValue')}}" name="minRoutesIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxRoutesIDFilter" placeholder="{{l('MaxValue')}}" name="maxRoutesIDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinStationCodeFilter">{{l("MinMax")}} {{l("StationCode")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinStationCodeFilter" [(ngModel)]="minStationCodeFilter" placeholder="{{l('MinValue')}}" name="minStationCodeFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxStationCodeFilter" placeholder="{{l('MaxValue')}}" name="maxStationCodeFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinStationOrderFilter">{{l("MinMax")}} {{l("StationOrder")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinStationOrderFilter" [(ngModel)]="minStationOrderFilter" placeholder="{{l('MinValue')}}" name="minStationOrderFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxStationOrderFilter" placeholder="{{l('MaxValue')}}" name="maxStationOrderFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinDistanceFStartFilter">{{l("MinMax")}} {{l("DistanceFStart")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinDistanceFStartFilter" [(ngModel)]="minDistanceFStartFilter" placeholder="{{l('MinValue')}}" name="minDistanceFStartFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxDistanceFStartFilter" placeholder="{{l('MaxValue')}}" name="maxDistanceFStartFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinDistanceFPrviousStFilter">{{l("MinMax")}} {{l("DistanceFPrviousSt")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinDistanceFPrviousStFilter" [(ngModel)]="minDistanceFPrviousStFilter" placeholder="{{l('MinValue')}}" name="minDistanceFPrviousStFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxDistanceFPrviousStFilter" placeholder="{{l('MaxValue')}}" name="maxDistanceFPrviousStFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="TimefrStartStationFilter">{{l("TimefrStartStation")}}</label>
+									<input type="text" class="form-control" id="TimefrStartStationFilter" name="timefrStartStationFilter" [(ngModel)]="timefrStartStationFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="TimefrPrviousStationFilter">{{l("TimefrPrviousStation")}}</label>
+									<input type="text" class="form-control" id="TimefrPrviousStationFilter" name="timefrPrviousStationFilter" [(ngModel)]="timefrPrviousStationFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="TimeSpendonStationFilter">{{l("TimeSpendonStation")}}</label>
+									<input type="text" class="form-control" id="TimeSpendonStationFilter" name="timeSpendonStationFilter" [(ngModel)]="timeSpendonStationFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTripActualIDFilter">{{l("MinMax")}} {{l("TripActualID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTripActualIDFilter" [(ngModel)]="minTripActualIDFilter" placeholder="{{l('MinValue')}}" name="minTripActualIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTripActualIDFilter" placeholder="{{l('MaxValue')}}" name="maxTripActualIDFilter" />
+									</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getTripActualRoutes_Station($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.TripActualRoutes_Station.Edit', 'Pages.TripActualRoutes_Station.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="tripActualRoutes_Station.routesID">
+                                        {{l('RoutesID')}}
+                                        <p-sortIcon field="tripActualRoutes_Station.routesID"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActualRoutes_Station.stationCode">
+                                        {{l('StationCode')}}
+                                        <p-sortIcon field="tripActualRoutes_Station.stationCode"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActualRoutes_Station.stationOrder">
+                                        {{l('StationOrder')}}
+                                        <p-sortIcon field="tripActualRoutes_Station.stationOrder"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActualRoutes_Station.distanceFStart">
+                                        {{l('DistanceFStart')}}
+                                        <p-sortIcon field="tripActualRoutes_Station.distanceFStart"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActualRoutes_Station.distanceFPrviousSt">
+                                        {{l('DistanceFPrviousSt')}}
+                                        <p-sortIcon field="tripActualRoutes_Station.distanceFPrviousSt"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActualRoutes_Station.timefrStartStation">
+                                        {{l('TimefrStartStation')}}
+                                        <p-sortIcon field="tripActualRoutes_Station.timefrStartStation"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActualRoutes_Station.timefrPrviousStation">
+                                        {{l('TimefrPrviousStation')}}
+                                        <p-sortIcon field="tripActualRoutes_Station.timefrPrviousStation"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActualRoutes_Station.timeSpendonStation">
+                                        {{l('TimeSpendonStation')}}
+                                        <p-sortIcon field="tripActualRoutes_Station.timeSpendonStation"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="tripActualRoutes_Station.tripActualID">
+                                        {{l('TripActualID')}}
+                                        <p-sortIcon field="tripActualRoutes_Station.tripActualID"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.TripActualRoutes_Station.Edit', 'Pages.TripActualRoutes_Station.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewTripActualRoutes_StationModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.TripActualRoutes_Station.Edit')"
+														(click)="createOrEditTripActualRoutes_StationModal.show(record.tripActualRoutes_Station.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.TripActualRoutes_Station.Delete')"
+														(click)="deleteTripActualRoutes_Station(record.tripActualRoutes_Station)">{{l('Delete')}}</a>
+												</li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="entityHistoryEnabled"
+                                                       (click)="showHistory(record.tripActualRoutes_Station)">{{l('History')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('RoutesID')}}</span>
+											{{record.tripActualRoutes_Station.routesID}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('StationCode')}}</span>
+											{{record.tripActualRoutes_Station.stationCode}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('StationOrder')}}</span>
+											{{record.tripActualRoutes_Station.stationOrder}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('DistanceFStart')}}</span>
+											{{record.tripActualRoutes_Station.distanceFStart}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('DistanceFPrviousSt')}}</span>
+											{{record.tripActualRoutes_Station.distanceFPrviousSt}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('TimefrStartStation')}}</span>
+											{{record.tripActualRoutes_Station.timefrStartStation}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('TimefrPrviousStation')}}</span>
+											{{record.tripActualRoutes_Station.timefrPrviousStation}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('TimeSpendonStation')}}</span>
+											{{record.tripActualRoutes_Station.timeSpendonStation}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('TripActualID')}}</span>
+											{{record.tripActualRoutes_Station.tripActualID}}
+										</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getTripActualRoutes_Station($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditTripActualRoutes_StationModal #createOrEditTripActualRoutes_StationModal (modalSave)="getTripActualRoutes_Station()"></createOrEditTripActualRoutes_StationModal>
+    <viewTripActualRoutes_StationModal #viewTripActualRoutes_StationModal></viewTripActualRoutes_StationModal>
+     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+</div>

@@ -1,0 +1,828 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class=" align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("ViwTripPlanedDaily")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("ViwTripPlanedDailyHeaderInfo")}}
+                </span>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <select required  matNativeControl [(ngModel)]="showBy" class="browser-default custom-select">
+                        <option value="3" selected>All</option>
+                        <option value="1">By Trip</option>
+                        <option value="2">By Driver</option>
+                    </select>
+                </div>
+                <div class="col-md-10 text-right">
+                    <button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                    <button *ngIf="isGranted('Pages.ViwTripPlanedDaily.Create')" (click)="createViwTripPlanedDaily()"
+                            class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewViwTripPlanedDaily")}}</button>
+                    <button (click)="replcaViwTripPlanedDaily()"
+                            class="btn btn-primary blue">{{l("ReplaceTasks")}}</button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+<!--                        <div class="row align-items-center m&#45;&#45;margin-bottom-10">-->
+<!--                            <div class="col-xl-12">-->
+<!--                                <div class="form-group m-form__group align-items-center">-->
+<!--                                    <div class="input-group">-->
+<!--                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">-->
+<!--                                        <span class="input-group-btn">-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="row m-margin-bottom-10 mt-3" >
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="TrpPlanDriverNameFilter">{{l("TrpPlanDriverName")}}</label>
+                                    <input type="text" class="form-control"
+                                           id="TrpPlanDriverNameFilter"
+                                           name="TrpPlanDriverNameFilter"
+                                           [(ngModel)]="trpPlanDriverNameFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinTrpPlanTaskNoFilter">{{l("MinMax")}} {{l("TrpPlanTaskNo")}}</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="MinTrpPlanTaskNoFilter" [(ngModel)]="minTrpPlanTaskNoFilter" placeholder="{{l('MinValue')}}" name="minTrpPlanTaskNoFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTrpPlanTaskNoFilter" placeholder="{{l('MaxValue')}}" name="maxTrpPlanTaskNoFilter" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="TrpPlanBusNumberFilter">{{l("TrpPlanBusNumber")}}</label>
+                                    <input type="text" class="form-control" id="TrpPlanBusNumberFilter" name="trpPlanBusNumberFilter" [(ngModel)]="trpPlanBusNumberFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="TrpPlanStartTimeFilter">{{l("TrpPlanStartTime")}}</label>
+                                    <input type="text" class="form-control" id="TrpPlanStartTimeFilter" name="trpPlanStartTimeFilter" [(ngModel)]="trpPlanStartTimeFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="TrpPlanEndTimeFilter">{{l("TrpPlanEndTime")}}</label>
+                                    <input type="text" class="form-control" id="TrpPlanEndTimeFilter" name="trpPlanEndTimeFilter" [(ngModel)]="trpPlanEndTimeFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group mt-4">
+                                    <button  (click)="getViwTripPlanedDaily()" class="btn mt-2 btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="TripIDGTFSFilter">{{l("TripIDGTFS")}}</label>
+									<input type="text" class="form-control" id="TripIDGTFSFilter" name="tripIDGTFSFilter" [(ngModel)]="tripIDGTFSFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTrpPlanCalnderIDFilter">{{l("MinMax")}} {{l("TrpPlanCalnderID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTrpPlanCalnderIDFilter" [(ngModel)]="minTrpPlanCalnderIDFilter" placeholder="{{l('MinValue')}}" name="minTrpPlanCalnderIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTrpPlanCalnderIDFilter" placeholder="{{l('MaxValue')}}" name="maxTrpPlanCalnderIDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTrpPlanLineNumberFilter">{{l("MinMax")}} {{l("TrpPlanLineNumber")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTrpPlanLineNumberFilter" [(ngModel)]="minTrpPlanLineNumberFilter" placeholder="{{l('MinValue')}}" name="minTrpPlanLineNumberFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTrpPlanLineNumberFilter" placeholder="{{l('MaxValue')}}" name="maxTrpPlanLineNumberFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTrpPlanDirectionFilter">{{l("MinMax")}} {{l("TrpPlanDirection")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTrpPlanDirectionFilter" [(ngModel)]="minTrpPlanDirectionFilter" placeholder="{{l('MinValue')}}" name="minTrpPlanDirectionFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTrpPlanDirectionFilter" placeholder="{{l('MaxValue')}}" name="maxTrpPlanDirectionFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTripMinistryIDFilter">{{l("MinMax")}} {{l("TripMinistryID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTripMinistryIDFilter" [(ngModel)]="minTripMinistryIDFilter" placeholder="{{l('MinValue')}}" name="minTripMinistryIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTripMinistryIDFilter" placeholder="{{l('MaxValue')}}" name="maxTripMinistryIDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTripMinistryLineNumberFilter">{{l("MinMax")}} {{l("TripMinistryLineNumber")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTripMinistryLineNumberFilter" [(ngModel)]="minTripMinistryLineNumberFilter" placeholder="{{l('MinValue')}}" name="minTripMinistryLineNumberFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTripMinistryLineNumberFilter" placeholder="{{l('MaxValue')}}" name="maxTripMinistryLineNumberFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTripMinistryDirectionFilter">{{l("MinMax")}} {{l("TripMinistryDirection")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTripMinistryDirectionFilter" [(ngModel)]="minTripMinistryDirectionFilter" placeholder="{{l('MinValue')}}" name="minTripMinistryDirectionFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTripMinistryDirectionFilter" placeholder="{{l('MaxValue')}}" name="maxTripMinistryDirectionFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTripMinistryCalenderIDFilter">{{l("MinMax")}} {{l("TripMinistryCalenderID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTripMinistryCalenderIDFilter" [(ngModel)]="minTripMinistryCalenderIDFilter" placeholder="{{l('MinValue')}}" name="minTripMinistryCalenderIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTripMinistryCalenderIDFilter" placeholder="{{l('MaxValue')}}" name="maxTripMinistryCalenderIDFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="TripMinistryTimeSpanFilter">{{l("TripMinistryTimeSpan")}}</label>
+									<input type="text" class="form-control" id="TripMinistryTimeSpanFilter" name="tripMinistryTimeSpanFilter" [(ngModel)]="tripMinistryTimeSpanFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<label for="TripMinistryMondayFilterSelect">{{l("TripMinistryMonday")}}</label>
+								<select class="form-control" name="TripMinistryMondayFilter" id="TripMinistryMondayFilterSelect" [(ngModel)]="tripMinistryMondayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TripMinistryTuesdayFilterSelect">{{l("TripMinistryTuesday")}}</label>
+								<select class="form-control" name="TripMinistryTuesdayFilter" id="TripMinistryTuesdayFilterSelect" [(ngModel)]="tripMinistryTuesdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TripMinistryWensdayFilterSelect">{{l("TripMinistryWensday")}}</label>
+								<select class="form-control" name="TripMinistryWensdayFilter" id="TripMinistryWensdayFilterSelect" [(ngModel)]="tripMinistryWensdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TripMinistryFridayFilterSelect">{{l("TripMinistryFriday")}}</label>
+								<select class="form-control" name="TripMinistryFridayFilter" id="TripMinistryFridayFilterSelect" [(ngModel)]="tripMinistryFridayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TripMinistryThursdayFilterSelect">{{l("TripMinistryThursday")}}</label>
+								<select class="form-control" name="TripMinistryThursdayFilter" id="TripMinistryThursdayFilterSelect" [(ngModel)]="tripMinistryThursdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TripMinistrySaturdayFilterSelect">{{l("TripMinistrySaturday")}}</label>
+								<select class="form-control" name="TripMinistrySaturdayFilter" id="TripMinistrySaturdayFilterSelect" [(ngModel)]="tripMinistrySaturdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TripMinistrySundayFilterSelect">{{l("TripMinistrySunday")}}</label>
+								<select class="form-control" name="TripMinistrySundayFilter" id="TripMinistrySundayFilterSelect" [(ngModel)]="tripMinistrySundayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinTripMinistryStart_dateFilter">{{l("MinMax")}} {{l("TripMinistryStart_date")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinTripMinistryStart_dateFilter" name="MinTripMinistryStart_dateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minTripMinistryStart_dateFilter">
+                                        <input class="form-control m-input" id="MaxTripMinistryStart_dateFilter" name="MaxTripMinistryStart_dateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxTripMinistryStart_dateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTripMinistryRouteIDFilter">{{l("MinMax")}} {{l("TripMinistryRouteID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTripMinistryRouteIDFilter" [(ngModel)]="minTripMinistryRouteIDFilter" placeholder="{{l('MinValue')}}" name="minTripMinistryRouteIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTripMinistryRouteIDFilter" placeholder="{{l('MaxValue')}}" name="maxTripMinistryRouteIDFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<label for="TrpPlanmondayFilterSelect">{{l("TrpPlanmonday")}}</label>
+								<select class="form-control" name="TrpPlanmondayFilter" id="TrpPlanmondayFilterSelect" [(ngModel)]="trpPlanmondayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TrpPlanTuesdayFilterSelect">{{l("TrpPlanTuesday")}}</label>
+								<select class="form-control" name="TrpPlanTuesdayFilter" id="TrpPlanTuesdayFilterSelect" [(ngModel)]="trpPlanTuesdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TrpPlanWensdayFilterSelect">{{l("TrpPlanWensday")}}</label>
+								<select class="form-control" name="TrpPlanWensdayFilter" id="TrpPlanWensdayFilterSelect" [(ngModel)]="trpPlanWensdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TrpPlanthursdayFilterSelect">{{l("TrpPlanthursday")}}</label>
+								<select class="form-control" name="TrpPlanthursdayFilter" id="TrpPlanthursdayFilterSelect" [(ngModel)]="trpPlanthursdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TrpPlanfridayFilterSelect">{{l("TrpPlanfriday")}}</label>
+								<select class="form-control" name="TrpPlanfridayFilter" id="TrpPlanfridayFilterSelect" [(ngModel)]="trpPlanfridayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TrpPlansaturdayFilterSelect">{{l("TrpPlansaturday")}}</label>
+								<select class="form-control" name="TrpPlansaturdayFilter" id="TrpPlansaturdayFilterSelect" [(ngModel)]="trpPlansaturdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="TrpPlansundayFilterSelect">{{l("TrpPlansunday")}}</label>
+								<select class="form-control" name="TrpPlansundayFilter" id="TrpPlansundayFilterSelect" [(ngModel)]="trpPlansundayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinTrpPlanStart_dateFilter">{{l("MinMax")}} {{l("TrpPlanStart_date")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinTrpPlanStart_dateFilter" name="MinTrpPlanStart_dateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minTrpPlanStart_dateFilter">
+                                        <input class="form-control m-input" id="MaxTrpPlanStart_dateFilter" name="MaxTrpPlanStart_dateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxTrpPlanStart_dateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinTrpPlanEnd_dateFilter">{{l("MinMax")}} {{l("TrpPlanEnd_date")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinTrpPlanEnd_dateFilter" name="MinTrpPlanEnd_dateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minTrpPlanEnd_dateFilter">
+                                        <input class="form-control m-input" id="MaxTrpPlanEnd_dateFilter" name="MaxTrpPlanEnd_dateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxTrpPlanEnd_dateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTripPlanedIDFilter">{{l("MinMax")}} {{l("TripPlanedID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTripPlanedIDFilter" [(ngModel)]="minTripPlanedIDFilter" placeholder="{{l('MinValue')}}" name="minTripPlanedIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTripPlanedIDFilter" placeholder="{{l('MaxValue')}}" name="maxTripPlanedIDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinDriverIDPPlanedFilter">{{l("MinMax")}} {{l("DriverIDPPlaned")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinDriverIDPPlanedFilter" [(ngModel)]="minDriverIDPPlanedFilter" placeholder="{{l('MinValue')}}" name="minDriverIDPPlanedFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxDriverIDPPlanedFilter" placeholder="{{l('MaxValue')}}" name="maxDriverIDPPlanedFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinBUSIDPlanlnedFilter">{{l("MinMax")}} {{l("BUSIDPlanlned")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinBUSIDPlanlnedFilter" [(ngModel)]="minBUSIDPlanlnedFilter" placeholder="{{l('MinValue')}}" name="minBUSIDPlanlnedFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxBUSIDPlanlnedFilter" placeholder="{{l('MaxValue')}}" name="maxBUSIDPlanlnedFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<label for="TrpPlanISValidFilterSelect">{{l("TrpPlanISValid")}}</label>
+								<select class="form-control" name="TrpPlanISValidFilter" id="TrpPlanISValidFilterSelect" [(ngModel)]="trpPlanISValidFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTrpPlanRouteIDFilter">{{l("MinMax")}} {{l("TrpPlanRouteID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTrpPlanRouteIDFilter" [(ngModel)]="minTrpPlanRouteIDFilter" placeholder="{{l('MinValue')}}" name="minTrpPlanRouteIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTrpPlanRouteIDFilter" placeholder="{{l('MaxValue')}}" name="maxTrpPlanRouteIDFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinWorkingdayFilter">{{l("MinMax")}} {{l("Workingday")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinWorkingdayFilter" name="MinWorkingdayFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minWorkingdayFilter">
+                                        <input class="form-control m-input" id="MaxWorkingdayFilter" name="MaxWorkingdayFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxWorkingdayFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinAutranFilter">{{l("MinMax")}} {{l("Autran")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinAutranFilter" [(ngModel)]="minAutranFilter" placeholder="{{l('MinValue')}}" name="minAutranFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxAutranFilter" placeholder="{{l('MaxValue')}}" name="maxAutranFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="StartLocationNameFilter">{{l("StartLocationName")}}</label>
+									<input type="text" class="form-control" id="StartLocationNameFilter" name="startLocationNameFilter" [(ngModel)]="startLocationNameFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="StartLocationNameHebFilter">{{l("StartLocationNameHeb")}}</label>
+									<input type="text" class="form-control" id="StartLocationNameHebFilter" name="startLocationNameHebFilter" [(ngModel)]="startLocationNameHebFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinStartLocationCodeFilter">{{l("MinMax")}} {{l("StartLocationCode")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinStartLocationCodeFilter" [(ngModel)]="minStartLocationCodeFilter" placeholder="{{l('MinValue')}}" name="minStartLocationCodeFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxStartLocationCodeFilter" placeholder="{{l('MaxValue')}}" name="maxStartLocationCodeFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinStartLocationLatitudeFilter">{{l("MinMax")}} {{l("StartLocationLatitude")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinStartLocationLatitudeFilter" [(ngModel)]="minStartLocationLatitudeFilter" placeholder="{{l('MinValue')}}" name="minStartLocationLatitudeFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxStartLocationLatitudeFilter" placeholder="{{l('MaxValue')}}" name="maxStartLocationLatitudeFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinStartLocationLongitudeFilter">{{l("MinMax")}} {{l("StartLocationLongitude")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinStartLocationLongitudeFilter" [(ngModel)]="minStartLocationLongitudeFilter" placeholder="{{l('MinValue')}}" name="minStartLocationLongitudeFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxStartLocationLongitudeFilter" placeholder="{{l('MaxValue')}}" name="maxStartLocationLongitudeFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinRouteTotalKMFilter">{{l("MinMax")}} {{l("RouteTotalKM")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinRouteTotalKMFilter" [(ngModel)]="minRouteTotalKMFilter" placeholder="{{l('MinValue')}}" name="minRouteTotalKMFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxRouteTotalKMFilter" placeholder="{{l('MaxValue')}}" name="maxRouteTotalKMFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinRouteTotalMinutesFilter">{{l("MinMax")}} {{l("RouteTotalMinutes")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinRouteTotalMinutesFilter" [(ngModel)]="minRouteTotalMinutesFilter" placeholder="{{l('MinValue')}}" name="minRouteTotalMinutesFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxRouteTotalMinutesFilter" placeholder="{{l('MaxValue')}}" name="maxRouteTotalMinutesFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="IsMinistryFilter">{{l("IsMinistry")}}</label>
+									<input type="text" class="form-control" id="IsMinistryFilter" name="isMinistryFilter" [(ngModel)]="isMinistryFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinBusIDFilter">{{l("MinMax")}} {{l("BusID")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinBusIDFilter" [(ngModel)]="minBusIDFilter" placeholder="{{l('MinValue')}}" name="minBusIDFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxBusIDFilter" placeholder="{{l('MaxValue')}}" name="maxBusIDFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RouteIDGTFSFilter">{{l("RouteIDGTFS")}}</label>
+									<input type="text" class="form-control" id="RouteIDGTFSFilter" name="routeIDGTFSFilter" [(ngModel)]="routeIDGTFSFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ControlStartTimeFilter">{{l("ControlStartTime")}}</label>
+									<input type="text" class="form-control" id="ControlStartTimeFilter" name="controlStartTimeFilter" [(ngModel)]="controlStartTimeFilter">
+								</div>
+                            </div>
+
+                        </div>
+
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center" [ngClass]="{'d-none': showBy != 3}" >
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table  #dataTable
+                                     (onLazyLoad)="getViwTripPlanedDaily($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header" >
+                                <tr>
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TrpPlanTaskNo">
+                                            {{l('TrpPlanTaskNo')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.TrpPlanTaskNo"></p-sortIcon>
+                                        </th>
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TrpPlanDriverName">
+                                            {{l('TrpPlanDriverName')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.TrpPlanDriverName"></p-sortIcon>
+                                        </th>
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TrpPlanBusNumber">
+                                            {{l('TrpPlanBusNumber')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.TrpPlanBusNumber"></p-sortIcon>
+                                        </th>
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TrpPlanStartTime">
+                                            {{l('TrpPlanStartTime')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.TrpPlanStartTime"></p-sortIcon>
+                                        </th>
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TrpPlanEndTime">
+                                            {{l('TrpPlanEndTime')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.TrpPlanEndTime"></p-sortIcon>
+                                        </th>
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.StartLocationName">
+                                            {{l('StartLocationName')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.StartLocationName"></p-sortIcon>
+                                        </th>
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.EndLocationName">
+                                            {{l('EndLocationName')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.EndLocationName"></p-sortIcon>
+                                        </th>
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TrpPlanLineNumber">
+                                            {{l('TrpPlanLineNumber')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.TrpPlanLineNumber"></p-sortIcon>
+                                        </th>
+                                        <th class=" p-2" scope="col" pSortableColumn="viwTripPlanedDaily.TrpPlanDirection">
+                                            {{l('TrpPlanDirection')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.TrpPlanDirection"></p-sortIcon>
+                                        </th>
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TripTypesName">
+                                            {{l('TripTypesName')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.tripTypesName"></p-sortIcon>
+                                        </th>
+                                        <th scope="col" class=" p-2" [hidden]="!isGrantedAny('Pages.ViwTripPlanedDaily.Edit',
+                                        'Pages.ViwTripPlanedDaily.Delete')">{{l('Actions')}}</th>
+                                </tr>
+                            </ng-template>
+							<ng-template pTemplate="body" let-record="$implicit">
+
+                                <tr>
+                                    <td class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('TrpPlanTaskNo')}}</span>
+                                        {{record.viwTripPlanedDaily.trpPlanTaskNo}}
+                                    </td>
+                                    <td class=" p-2"  scope="col" >
+                                        <span class="ui-column-title"> {{l('TrpPlanBusNumber')}}</span>
+                                        {{record.viwTripPlanedDaily.trpPlanDriverName}}
+                                    </td>
+                                    <td  class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('TrpPlanBusNumber')}}</span>
+                                        {{record.viwTripPlanedDaily.trpPlanBusNumber}}
+                                    </td>
+                                    <td class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('TrpPlanStartTime')}}</span>
+                                        {{record.viwTripPlanedDaily.trpPlanStartTime}}
+                                    </td>
+                                    <td class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('TrpPlanEndTime')}}</span>
+                                        {{record.viwTripPlanedDaily.trpPlanEndTime}}
+                                    </td>
+
+                                    <td class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('StartLocationName')}}</span>
+                                        {{record.viwTripPlanedDaily.startLocationName}}
+                                    </td>
+                                    <td class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('EndLocationName')}}</span>
+                                        {{record.viwTripPlanedDaily.endLocationName}}
+                                    </td>
+                                    <td class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('TrpPlanLineNumber')}}</span>
+                                        {{record.viwTripPlanedDaily.trpPlanLineNumber}}
+                                    </td>
+                                    <td class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('TrpPlanDirection')}}</span>
+                                        {{record.viwTripPlanedDaily.trpPlanDirection}}
+                                    </td>
+                                    <td class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('TripTypesName')}}</span>
+                                        {{record.viwTripPlanedDaily.tripTypesName}}
+                                    </td>
+                                    <td class=" p-2"
+                                        [hidden]="!isGrantedAny('Pages.ViwTripPlanedDaily.Edit', 'Pages.ViwTripPlanedDaily.Delete')">
+                                        <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+                                            <ul class="dropdown-menu"  *dropdownMenu>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                       (click)="viewViwTripPlanedDailyModal.show(record)">{{l('View')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.ViwTripPlanedDaily.Edit')"
+                                                       (click)="createOrEditViwTripPlanedDailyModal.show(record.viwTripPlanedDaily.id)">{{l('Edit')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.ViwTripPlanedDaily.Delete')"
+                                                       (click)="deleteViwTripPlanedDaily(record.viwTripPlanedDaily)">{{l('Delete')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                       </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+
+                    <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getViwTripPlanedDaily($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+                
+
+
+
+
+                
+                <div class="row align-items-center"  *ngIf="showBy == 1">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table  #dataTable
+                                     (onLazyLoad)="getViwTripPlanedDaily($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header" >
+                                <tr>
+                                        <!-- <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TrpPlanTaskNo">
+                                            {{l('TrpPlanTaskNo')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.TrpPlanTaskNo"></p-sortIcon>
+                                        </th> -->
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TrpPlanBusNumber">
+                                            {{l('TrpPlanBusNumber')}}
+                                            <p-sortIcon field="viwTripPlanedDaily.TrpPlanBusNumber"></p-sortIcon>
+                                        </th>
+                                        <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.busGroup">
+                                            {{l('busGroup')}}
+                                        </th>
+
+                                        <th scope="col" class=" p-2" [hidden]="!isGrantedAny('Pages.ViwTripPlanedDaily.Edit',
+                                        'Pages.ViwTripPlanedDaily.Delete')">{{l('Actions')}}</th>
+                                </tr>
+                            </ng-template>
+							<ng-template pTemplate="body" let-record="$implicit">
+
+                                <tr (click)="replcaViwTripPlanedDaily()">
+                                    <!-- <td class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('TrpPlanTaskNo')}}</span>
+                                        {{record.viwTripPlanedDaily.trpPlanTaskNo}}
+                                    </td> -->
+                                    <td class=" p-2"  scope="col" >
+                                        <span class="ui-column-title"> {{l('TrpPlanBusNumber')}}</span>
+                                        {{record.viwTripPlanedDaily.busID}}
+                                    </td>
+                                    <td  class=" p-2" scope="col">
+                                        <span class="ui-column-title"> {{l('busGroup')}}</span>
+                                        {{record.viwTripPlanedDaily.busGroup}}
+                                    </td>
+                                    <td class=" p-2"
+                                        [hidden]="!isGrantedAny('Pages.ViwTripPlanedDaily.Edit', 'Pages.ViwTripPlanedDaily.Delete')">
+                                        <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+                                            <ul class="dropdown-menu"  *dropdownMenu>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                       (click)="viewViwTripPlanedDailyModal.show(record)">{{l('View')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.ViwTripPlanedDaily.Edit')"
+                                                       (click)="createOrEditViwTripPlanedDailyModal.show(record.viwTripPlanedDaily.id)">{{l('Edit')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.ViwTripPlanedDaily.Delete')"
+                                                       (click)="deleteViwTripPlanedDaily(record.viwTripPlanedDaily)">{{l('Delete')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                       </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+
+                    <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getViwTripPlanedDaily($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+
+
+
+                <div class="row align-items-center"  *ngIf="showBy == 2" >
+                        <!--<Primeng-Datatable-Start>-->
+                        <div class="primeng-datatable-container"
+                             [busyIf]="primengTableHelper.isLoading">
+                            <p-table  #dataTable
+                                         (onLazyLoad)="getViwTripPlanedDaily($event)"
+                                         [value]="primengTableHelper.records"
+                                         rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         [paginator]="false"
+                                         [lazy]="true"
+                                         [scrollable]="true"
+                                         ScrollWidth="100%"
+                                         [responsive]="primengTableHelper.isResponsive"
+                                         [resizableColumns]="primengTableHelper.resizableColumns">
+                                <ng-template pTemplate="header" >
+                                    <tr>
+                                            <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.TrpPlanDriverName">
+                                                {{l('TrpPlanDriverName')}}
+                                                <p-sortIcon field="viwTripPlanedDaily.trpPlanDriverName"></p-sortIcon>
+                                            </th>
+                                            <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.trpPlanTaskNo">
+                                                    {{l('TrpPlanTaskNo')}}
+                                                </th>
+                                            <th scope="col" class=" p-2" pSortableColumn="viwTripPlanedDaily.trpPlanBusNumber">
+                                                {{l('TrpPlanBusNumber')}}
+                                                <p-sortIcon field="viwTripPlanedDaily.TrpPlanBusNumber"></p-sortIcon>
+                                            </th>
+                                   
+    
+                                            <th scope="col" class=" p-2" [hidden]="!isGrantedAny('Pages.ViwTripPlanedDaily.Edit',
+                                            'Pages.ViwTripPlanedDaily.Delete')">{{l('Actions')}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-record="$implicit">
+    
+                                    <tr (click)="replcaViwTripPlanedDaily()">
+                                        <td class=" p-2" scope="col">
+                                            <span class="ui-column-title"> {{l('TrpPlanDriverName')}}</span>
+                                            {{record.viwTripPlanedDaily.trpPlanDriverName}}
+                                        </td>
+                                        <td  class=" p-2" scope="col">
+                                                <span class="ui-column-title"> {{l('TrpPlanTaskNo')}}</span>
+                                                {{record.viwTripPlanedDaily.trpPlanTaskNo}}
+                                            </td>
+                                        <td class=" p-2"  scope="col" >
+                                            <span class="ui-column-title"> {{l('TrpPlanBusNumber')}}</span>
+                                            {{record.viwTripPlanedDaily.busID}}
+                                        </td>
+                                 
+                                        <td class=" p-2"
+                                            [hidden]="!isGrantedAny('Pages.ViwTripPlanedDaily.Edit', 'Pages.ViwTripPlanedDaily.Delete')">
+                                            <div class="btn-group dropdown" dropdown container="body">
+                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                    <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                                </button>
+                                                <ul class="dropdown-menu"  *dropdownMenu>
+                                                    <li>
+                                                        <a href="javascript:;"
+                                                           (click)="viewViwTripPlanedDailyModal.show(record)">{{l('View')}}</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;" *ngIf="permission.isGranted('Pages.ViwTripPlanedDaily.Edit')"
+                                                           (click)="createOrEditViwTripPlanedDailyModal.show(record.viwTripPlanedDaily.id)">{{l('Edit')}}</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;" *ngIf="permission.isGranted('Pages.ViwTripPlanedDaily.Delete')"
+                                                           (click)="deleteViwTripPlanedDaily(record.viwTripPlanedDaily)">{{l('Delete')}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+    
+                           </ng-template>
+                            </p-table>
+                            <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                {{l('NoData')}}
+                            </div>
+    
+                        <div class="primeng-paging-container">
+                                <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                             #paginator
+                                             (onPageChange)="getViwTripPlanedDaily($event)"
+                                             [totalRecords]="primengTableHelper.totalRecordsCount"
+                                             [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                                </p-paginator>
+                                <span class="total-records-count">
+                                    {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                                </span>
+                            </div>
+                        </div>
+                        <!--<Primeng-Datatable-End>-->
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditViwTripPlanedDailyModal #createOrEditViwTripPlanedDailyModal (modalSave)="getViwTripPlanedDaily()"></createOrEditViwTripPlanedDailyModal>
+    <replaceViwTripPlanedDailyModal #replaceViwTripPlanedDailyModal (modalShow)="getViwTripPlanedDaily()" ></replaceViwTripPlanedDailyModal>
+    <viewViwTripPlanedDailyModal #viewViwTripPlanedDailyModal></viewViwTripPlanedDailyModal>
+
+</div>

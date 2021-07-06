@@ -1,0 +1,289 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("CalenderBuses")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("CalenderBusesHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.CalenderBuses.Create')" (click)="createCalenderBus()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewCalenderBus")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getCalenderBuses()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+	
+							<div class="col-md-3">
+								<label for="mondayFilterSelect">{{l("monday")}}</label>
+								<select class="form-control" name="mondayFilter" id="mondayFilterSelect" [(ngModel)]="mondayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>	
+							<div class="col-md-3">
+								<label for="tuesdayFilterSelect">{{l("tuesday")}}</label>
+								<select class="form-control" name="tuesdayFilter" id="tuesdayFilterSelect" [(ngModel)]="tuesdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>	
+							<div class="col-md-3">
+								<label for="wednesdayFilterSelect">{{l("wednesday")}}</label>
+								<select class="form-control" name="wednesdayFilter" id="wednesdayFilterSelect" [(ngModel)]="wednesdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>	
+							<div class="col-md-3">
+								<label for="thursdayFilterSelect">{{l("thursday")}}</label>
+								<select class="form-control" name="thursdayFilter" id="thursdayFilterSelect" [(ngModel)]="thursdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>	
+							<div class="col-md-3">
+								<label for="fridayFilterSelect">{{l("friday")}}</label>
+								<select class="form-control" name="fridayFilter" id="fridayFilterSelect" [(ngModel)]="fridayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>	
+							<div class="col-md-3">
+								<label for="saturdayFilterSelect">{{l("saturday")}}</label>
+								<select class="form-control" name="saturdayFilter" id="saturdayFilterSelect" [(ngModel)]="saturdayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>	
+							<div class="col-md-3">
+								<label for="sundayFilterSelect">{{l("sunday")}}</label>
+								<select class="form-control" name="sundayFilter" id="sundayFilterSelect" [(ngModel)]="sundayFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="Minstart_dateFilter">{{l("MinMax")}} {{l("start_date")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="Minstart_dateFilter" name="Minstart_dateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minstart_dateFilter">
+                                        <input class="form-control m-input" id="Maxstart_dateFilter" name="Maxstart_dateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxstart_dateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="Minend_dateFilter">{{l("MinMax")}} {{l("end_date")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="Minend_dateFilter" name="Minend_dateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minend_dateFilter">
+                                        <input class="form-control m-input" id="Maxend_dateFilter" name="Maxend_dateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxend_dateFilter">
+									</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getCalenderBuses($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.CalenderBuses.Edit', 'Pages.CalenderBuses.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="calenderBus.monday">
+                                        {{l('monday')}}
+                                        <p-sortIcon field="calenderBus.monday"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="calenderBus.tuesday">
+                                        {{l('tuesday')}}
+                                        <p-sortIcon field="calenderBus.tuesday"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="calenderBus.wednesday">
+                                        {{l('wednesday')}}
+                                        <p-sortIcon field="calenderBus.wednesday"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="calenderBus.thursday">
+                                        {{l('thursday')}}
+                                        <p-sortIcon field="calenderBus.thursday"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="calenderBus.friday">
+                                        {{l('friday')}}
+                                        <p-sortIcon field="calenderBus.friday"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="calenderBus.saturday">
+                                        {{l('saturday')}}
+                                        <p-sortIcon field="calenderBus.saturday"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="calenderBus.sunday">
+                                        {{l('sunday')}}
+                                        <p-sortIcon field="calenderBus.sunday"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="calenderBus.start_date">
+                                        {{l('start_date')}}
+                                        <p-sortIcon field="calenderBus.start_date"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="calenderBus.end_date">
+                                        {{l('end_date')}}
+                                        <p-sortIcon field="calenderBus.end_date"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.CalenderBuses.Edit', 'Pages.CalenderBuses.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewCalenderBusModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.CalenderBuses.Edit')"
+														(click)="createOrEditCalenderBusModal.show(record.calenderBus.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.CalenderBuses.Delete')"
+														(click)="deleteCalenderBus(record.calenderBus)">{{l('Delete')}}</a>
+												</li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="entityHistoryEnabled"
+                                                       (click)="showHistory(record.calenderBus)">{{l('History')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('monday')}}</span>
+                                        <div *ngIf="record.calenderBus.monday" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.calenderBus.monday" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('tuesday')}}</span>
+                                        <div *ngIf="record.calenderBus.tuesday" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.calenderBus.tuesday" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('wednesday')}}</span>
+                                        <div *ngIf="record.calenderBus.wednesday" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.calenderBus.wednesday" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('thursday')}}</span>
+                                        <div *ngIf="record.calenderBus.thursday" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.calenderBus.thursday" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('friday')}}</span>
+                                        <div *ngIf="record.calenderBus.friday" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.calenderBus.friday" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('saturday')}}</span>
+                                        <div *ngIf="record.calenderBus.saturday" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.calenderBus.saturday" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('sunday')}}</span>
+                                        <div *ngIf="record.calenderBus.sunday" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.calenderBus.sunday" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('start_date')}}</span>
+                                        <span *ngIf="record.calenderBus.start_date">
+											{{record.calenderBus.start_date | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.calenderBus.start_date">-</span>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('end_date')}}</span>
+                                        <span *ngIf="record.calenderBus.end_date">
+											{{record.calenderBus.end_date | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.calenderBus.end_date">-</span>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getCalenderBuses($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditCalenderBusModal #createOrEditCalenderBusModal (modalSave)="getCalenderBuses()"></createOrEditCalenderBusModal>
+    <viewCalenderBusModal #viewCalenderBusModal></viewCalenderBusModal>
+     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+</div>

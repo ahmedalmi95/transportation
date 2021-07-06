@@ -1,0 +1,73 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #tripActualRoutes_StationForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="tripActualRoutes_Station.id">{{l("EditTripActualRoutes_Station")}}</span>
+                        <span *ngIf="!tripActualRoutes_Station.id">{{l("CreateNewTripActualRoutes_Station")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="TripActualRoutes_Station_RoutesID">{{l("RoutesID")}}</label>
+									<input type="number" id="TripActualRoutes_Station_RoutesID" class="form-control" [(ngModel)]="tripActualRoutes_Station.routesID" name="RoutesID"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualRoutes_Station_StationCode">{{l("StationCode")}}</label>
+									<input type="number" id="TripActualRoutes_Station_StationCode" class="form-control" [(ngModel)]="tripActualRoutes_Station.stationCode" name="StationCode"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualRoutes_Station_StationOrder">{{l("StationOrder")}}</label>
+									<input type="number" id="TripActualRoutes_Station_StationOrder" class="form-control" [(ngModel)]="tripActualRoutes_Station.stationOrder" name="StationOrder"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualRoutes_Station_DistanceFStart">{{l("DistanceFStart")}}</label>
+									<input type="number" id="TripActualRoutes_Station_DistanceFStart" class="form-control" [(ngModel)]="tripActualRoutes_Station.distanceFStart" name="DistanceFStart"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualRoutes_Station_DistanceFPrviousSt">{{l("DistanceFPrviousSt")}}</label>
+									<input type="number" id="TripActualRoutes_Station_DistanceFPrviousSt" class="form-control" [(ngModel)]="tripActualRoutes_Station.distanceFPrviousSt" name="DistanceFPrviousSt"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualRoutes_Station_TimefrStartStation">{{l("TimefrStartStation")}}</label>
+									<input type="text" id="TripActualRoutes_Station_TimefrStartStation" class="form-control" [(ngModel)]="tripActualRoutes_Station.timefrStartStation" name="TimefrStartStation"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualRoutes_Station_TimefrPrviousStation">{{l("TimefrPrviousStation")}}</label>
+									<input type="text" id="TripActualRoutes_Station_TimefrPrviousStation" class="form-control" [(ngModel)]="tripActualRoutes_Station.timefrPrviousStation" name="TimefrPrviousStation"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualRoutes_Station_TimeSpendonStation">{{l("TimeSpendonStation")}}</label>
+									<input type="text" id="TripActualRoutes_Station_TimeSpendonStation" class="form-control" [(ngModel)]="tripActualRoutes_Station.timeSpendonStation" name="TimeSpendonStation"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="TripActualRoutes_Station_TripActualID">{{l("TripActualID")}}</label>
+									<input type="number" id="TripActualRoutes_Station_TripActualID" class="form-control" [(ngModel)]="tripActualRoutes_Station.tripActualID" name="TripActualID"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!tripActualRoutes_StationForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
