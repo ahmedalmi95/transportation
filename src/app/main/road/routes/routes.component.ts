@@ -8,6 +8,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import {
     RoutesServiceProxy,
     RouteDto,
+    Routes_StationsServiceProxy,
+    CreateOrEditRoutes_StationDto,
 } from "@shared/service-proxies/service-proxies";
 import { NotifyService } from "@abp/notify/notify.service";
 import { AppComponentBase } from "@shared/common/app-component-base";
@@ -37,7 +39,8 @@ export class RoutesComponent extends AppComponentBase {
     entityTypeHistoryModal: EntityTypeHistoryModalComponent;
     @ViewChild("dataTable", { static: true }) dataTable: Table;
     @ViewChild("paginator", { static: true }) paginator: Paginator;
-
+    routes_Station: CreateOrEditRoutes_StationDto = new CreateOrEditRoutes_StationDto();
+    
     advancedFiltersAreShown = false;
     filterText = "";
     maxLineNumberFilter: number;
@@ -76,7 +79,7 @@ export class RoutesComponent extends AppComponentBase {
     showLineNumber: boolean = false;
     _entityTypeFullName = "BringitPal.POPBUS.Road.Route";
     entityHistoryEnabled = false;
-
+    stationsList: any[];
     items = [
         { id: 1, name: "lineNumber" },
         { id: 2, name: "direction" },
@@ -89,6 +92,7 @@ export class RoutesComponent extends AppComponentBase {
         { id: 9, name: "catSedor" },
     ];
     selectedItems: any = [];
+    stationsSelected: any = [];
     islineNumber: boolean = false;
     isdirection: boolean = false;
     islineCode: boolean = false;
@@ -98,7 +102,32 @@ export class RoutesComponent extends AppComponentBase {
     istotalMinutes: boolean = false;
     isrouteIDGTFS: boolean = false;
     iscatSedor: boolean = false;
+    showModal: boolean = false;
 
+    locationNameFilter: string;
+    maxLatitudeFilter: any;
+    maxLatitudeFilterEmpty: number;
+    minLatitudeFilter: any;
+    minLatitudeFilterEmpty: number;
+    maxLongitudeFilter: any;
+    maxLongitudeFilterEmpty: number;
+    minLongitudeFilter: any;
+    minLongitudeFilterEmpty: number;
+    isStopFilter: number;
+    maxStationCodeFilter: any;
+    maxStationCodeFilterEmpty: number;
+    minStationCodeFilter: any;
+    minStationCodeFilterEmpty: number;
+    locationNameHebrewFilter: string;
+    typeFilter: string;
+    isMarkFilter: number;
+    isSaveFilter: number;
+    maxcheckDistanceFilter: any;
+    maxcheckDistanceFilterEmpty: number;
+    mincheckDistanceFilter: any;
+    mincheckDistanceFilterEmpty: number;
+    isPathFilter: number;
+    _rows: number;
     constructor(
         injector: Injector,
         private _routesServiceProxy: RoutesServiceProxy,
@@ -106,7 +135,8 @@ export class RoutesComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _router: Router,
-        private _fileDownloadService: FileDownloadService
+        private _fileDownloadService: FileDownloadService,
+        private _routes_StationsServiceProxy: Routes_StationsServiceProxy
     ) {
         super(injector);
     }
@@ -339,5 +369,49 @@ export class RoutesComponent extends AppComponentBase {
             }
         });
         localStorage.setItem("routesTable", JSON.stringify(this.selectedItems));
+    }
+    showModel(record?) {
+        console.log(111, record.id);
+        this.showModal = true;
+        this._routes_StationsServiceProxy
+            .getAll(
+                this.filterText,
+                record.id,
+                record.id,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, record),
+                100000000
+            )
+            .subscribe((res) => {
+                console.log(this.paginator, res);
+                this.stationsList = res.items;
+            });
+    }
+    linkStationsFunction(selected) {
+        console.log(selected);
+    }
+    saveStationSelected(stationSelected) {
+        this.routes_Station.routesID = this.stationsSelected[0].routes_Station.routesID;
+        this.routes_Station.stationCode = this.stationsSelected[0].routes_Station.stationCode;
+        this.routes_Station.stationOrder = this.stationsSelected[0].routes_Station.stationOrder;
+        console.log("save: ", this.stationsSelected);
+        
+        // add for loop to send the request for all selected routes_stations
+        this._routes_StationsServiceProxy.createOrEdit(this.routes_Station).subscribe(res=> console.log(res))
+
     }
 }

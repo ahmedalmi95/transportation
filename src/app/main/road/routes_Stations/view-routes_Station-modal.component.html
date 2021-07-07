@@ -11,55 +11,57 @@
             </div>
             <div class="modal-body">
 
-                <div class="m-stack m-stack--hor m-stack--general m-stack--demo">
-                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                        <h6>{{l("RoutesID")}} :</h6>
-                        {{item.routes_Station.routesID}}
-                    </div>
-                    <div class="m-separator m-separator--dashed"></div>
-                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                        <h6>{{l("StationCode")}} :</h6>
-                        {{item.routes_Station.stationCode}}
-                    </div>
-                    <div class="m-separator m-separator--dashed"></div>
-                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                        <h6>{{l("StationOrder")}} :</h6>
-                        {{item.routes_Station.stationOrder}}
-                    </div>
-                    <div class="m-separator m-separator--dashed"></div>
-                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                        <h6>{{l("DistanceFStart")}} :</h6>
-                        {{item.routes_Station.distanceFStart}}
-                    </div>
-                    <div class="m-separator m-separator--dashed"></div>
-                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                        <h6>{{l("DistanceFPrviousSt")}} :</h6>
-                        {{item.routes_Station.distanceFPrviousSt}}
-                    </div>
-                    <div class="m-separator m-separator--dashed"></div>
-                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                        <h6>{{l("TimefrStartStation")}} :</h6>
-                        {{item.routes_Station.timefrStartStation}}
-                    </div>
-                    <div class="m-separator m-separator--dashed"></div>
-                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                        <h6>{{l("LinkToMain")}} :</h6>
-                        {{item.routes_Station.linkToMain}}
-                    </div>
-                    <div class="m-separator m-separator--dashed"></div>
-                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                        <h6>{{l("TimefrPrvious")}} :</h6>
-                        {{item.routes_Station.timefrPrvious}}
-                    </div>
-                    <div class="m-separator m-separator--dashed"></div>
-                    <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                        <h6>{{l("TimeFrStart")}} :</h6>
-                        {{item.routes_Station.timeFrStart}}
-                    </div>
-                    <div class="m-separator m-separator--dashed"></div>
-
-
-                </div>
+                <table id="defualt-table">
+                    <tr>
+                        <td>
+                            <b>{{ l("RoutesID") }} </b>
+                        </td>
+                        <td>{{item.routes_Station.routesID}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("StationCode") }}</b>
+                        </td>
+                        <td>{{item.routes_Station.stationCode}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("StationOrder") }}</b>
+                        </td>
+                        <td>{{item.routes_Station.stationOrder}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("DistanceFStart") }}</b>
+                        </td>
+                        <td>{{item.routes_Station.distanceFStart}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("DistanceFPrviousSt") }}</b>
+                        </td>
+                        <td>{{item.routes_Station.distanceFPrviousSt}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("TimefrStartStation") }}</b>
+                        </td>
+                        <td>{{item.routes_Station.timefrStartStation}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("LinkToMain") }}</b>
+                        </td>
+                        <td>{{item.routes_Station.linkToMain}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ l("TimeFrStart") }}</b>
+                        </td>
+                        <td>{{item.routes_Station.timeFrStart}}</td>
+                    </tr>
+                    
+                </table>
 
             </div>
             <div class="modal-footer">

@@ -151,7 +151,7 @@
                                     </div>
                                 </div>
                             </div>
-                             <!--
+                            <!--
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="MinSignageFilter"
@@ -366,13 +366,23 @@
                                     >
                                         {{ l("Actions") }}
                                     </th>
+
+                                    <th
+                                        style="width: 150px"
+                                        pSortableColumn="route.id"
+                                    >
+                                        link station
+                                        <p-sortIcon
+                                            field="route.id"
+                                        ></p-sortIcon>
+                                    </th>
+
                                     <th
                                         [hidden]="islineNumber"
                                         style="width: 150px"
                                         pSortableColumn="route.lineNumber"
                                     >
                                         {{ l("LineNumber") }}
-
                                         <p-sortIcon
                                             field="route.lineNumber"
                                         ></p-sortIcon>
@@ -566,6 +576,14 @@
                                             </ul>
                                         </div>
                                     </td>
+                                    <td style="width: 150px">
+                                        <button
+                                            class="btn btn-sm btn-primary"
+                                            (click)="showModel(record.route)"
+                                        >
+                                            link Station
+                                        </button>
+                                    </td>
                                     <td
                                         style="width: 150px"
                                         [hidden]="islineNumber"
@@ -685,6 +703,56 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="modal-container" *ngIf="showModal">
+        <div class="modal-style">
+
+        
+        <div class="modal-header">
+            <h4 class="modal-title">Hi there!</h4>
+            <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="showModal = false"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Select stations to connect:</p>
+            <div>
+                <ng-select
+                    [items]="stationsList"
+                    bindLabel="routes_Station.stationCode"
+                    [(ngModel)]="stationsSelected"
+                    [multiple]="true"
+                    placeholder="Select station"
+                    (change)="linkStationsFunction(stationsSelected)"
+                >
+                </ng-select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button
+                type="button"
+                class="btn btn-outline-dark"
+                (click)="showModal = false"
+            >
+                Close
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                (click)="saveStationSelected()"
+            >
+                Save
+            </button>
+
+        </div>
+    </div>
     </div>
 
     <createOrEditRouteModal

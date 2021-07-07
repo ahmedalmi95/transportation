@@ -8162,7 +8162,7 @@ export class Routes_StationsServiceProxy {
     createOrEdit(input: CreateOrEditRoutes_StationDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Routes_Stations/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
-
+        console.log('input', input)
         const content_ = JSON.stringify(input);
 
         let options_ : any = {
