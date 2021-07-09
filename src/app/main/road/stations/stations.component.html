@@ -354,6 +354,17 @@
                                         {{ l("Actions") }}
                                     </th>
                                     <th
+                                        style="width: 130px"
+                                        [hidden]="
+                                            !isGrantedAny(
+                                                'Pages.Stations.Edit',
+                                                'Pages.Stations.Delete'
+                                            )
+                                        "
+                                    >
+                                        Link Route
+                                    </th>
+                                    <th
                                         style="width: 150px"
                                         pSortableColumn="station.locationName"
                                         [hidden]="islocationName"
@@ -559,6 +570,22 @@
                                                 </li>
                                             </ul>
                                         </div>
+                                    </td>
+                                    <td
+                                        style="width: 130px"
+                                        [hidden]="
+                                            !isGrantedAny(
+                                                'Pages.Stations.Edit',
+                                                'Pages.Stations.Delete'
+                                            )
+                                        "
+                                    >
+                                    <button
+                                    class="btn btn-sm btn-primary"
+                                    (click)="showModel(record.station)"
+                                >
+                                    link Route
+                                </button>
                                     </td>
                                     <td
                                         style="width: 150px"
@@ -772,6 +799,52 @@
                     </div>
                     <!--<Primeng-Datatable-End>-->
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-container" *ngIf="showModal">
+        <div class="modal-style">
+            <div class="modal-header">
+                <h4 class="modal-title">Link Station with Routes</h4>
+                <button
+                    type="button"
+                    class="close"
+                    aria-label="Close"
+                    (click)="showModal = false"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Select stations to connect:</p>
+                <div>
+              
+                    <ngx-select-dropdown
+                        (change)="selectionChanged($event)"
+                        [multiple]="true"
+                        [(ngModel)]="newRouteSelected"
+                        [config]="config"
+                        [options]="routesFilter"
+                    ></ngx-select-dropdown>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    (click)="showModal = false"
+                >
+                    Close
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="saveRouteSelected()"
+                >
+                    Save
+                </button>
             </div>
         </div>
     </div>

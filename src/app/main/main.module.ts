@@ -97,6 +97,8 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { MainRoutingModule } from "./main-routing.module";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SelectDropDownModule } from 'ngx-select-dropdown'
+import { DropdownListModule } from 'ngx-dropdown-list';
 
 import {
     BsDatepickerModule,
@@ -127,6 +129,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         MainRoutingModule,
         CountoModule,
         NgxChartsModule,
+        SelectDropDownModule,
+        DropdownListModule,
         BsDatepickerModule.forRoot(),
         BsDropdownModule.forRoot(),
         PopoverModule.forRoot(),

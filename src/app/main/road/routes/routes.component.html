@@ -707,23 +707,21 @@
 
     <div class="modal-container" *ngIf="showModal">
         <div class="modal-style">
-
-        
-        <div class="modal-header">
-            <h4 class="modal-title">Hi there!</h4>
-            <button
-                type="button"
-                class="close"
-                aria-label="Close"
-                (click)="showModal = false"
-            >
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <p>Select stations to connect:</p>
-            <div>
-                <ng-select
+            <div class="modal-header">
+                <h4 class="modal-title">Link Station with Routes</h4>
+                <button
+                    type="button"
+                    class="close"
+                    aria-label="Close"
+                    (click)="showModal = false"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Select stations to connect:</p>
+                <div>
+                    <!-- <ng-select
                     [items]="stationsList"
                     bindLabel="routes_Station.stationCode"
                     [(ngModel)]="stationsSelected"
@@ -731,28 +729,44 @@
                     placeholder="Select station"
                     (change)="linkStationsFunction(stationsSelected)"
                 >
-                </ng-select>
+                </ng-select> -->
+                    <ngx-select-dropdown
+                        (change)="selectionChanged($event)"
+                        [multiple]="true"
+                        [(ngModel)]="newStationsSelected"
+                        [config]="config"
+                        [options]="stationsFilter"
+                    ></ngx-select-dropdown>
+                    <!-- <ngx-dropdown-list (selectionChange)="selectionChanged($event)"
+                        [items]="items"
+                        [multiSelection]="true"
+                        [placeHolder]="'place holder of the drop-down list'"
+                        [(selectedValue)]="maxRowsLimitation"
+                        [suffixText]="' suffix text'"
+                        [filterBox]="true"
+                        [formatNumber]="true"
+                        [disabled]="false">
+                    </ngx-dropdown-list> -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    (click)="showModal = false"
+                >
+                    Close
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="saveStationSelected()"
+                >
+                    Save
+                </button>
             </div>
         </div>
-        <div class="modal-footer">
-            <button
-                type="button"
-                class="btn btn-outline-dark"
-                (click)="showModal = false"
-            >
-                Close
-            </button>
-
-            <button
-                type="button"
-                class="btn btn-primary"
-                (click)="saveStationSelected()"
-            >
-                Save
-            </button>
-
-        </div>
-    </div>
     </div>
 
     <createOrEditRouteModal

@@ -7,6 +7,7 @@
 import { ActivatedRoute } from "@angular/router";
 import {
     StationsServiceProxy,
+    Routes_StationsServiceProxy,
     StationDto,
 } from "@shared/service-proxies/service-proxies";
 import { NotifyService } from "@abp/notify/notify.service";
@@ -63,7 +64,9 @@ export class StationsComponent extends AppComponentBase {
     mincheckDistanceFilter: number;
     mincheckDistanceFilterEmpty: number;
     isPathFilter = -1;
-
+    showModal: boolean = false;
+    newRouteSelected: any[] = [];
+    routesFilter: any[] = [];
     _entityTypeFullName = "BringitPal.POPBUS.Road.Station";
     entityHistoryEnabled = false;
 
@@ -93,13 +96,32 @@ export class StationsComponent extends AppComponentBase {
     ischeckDistance: boolean = false;
     isisPath: boolean = false;
 
+    config = {
+        displayFn: (item: any) => {
+            return item.stationCode;
+        }, //to support flexible text displaying for each item
+        displayKey: "description", //if objects array passed which key to be displayed defaults to description
+        search: true, //true/false for the search functionlity defaults to false,
+        height: "auto", //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
+        placeholder: "Select", // text to be displayed when no item is selected defaults to Select,
+        customComparator: () => {}, // a custom function using which user wants to sort the items. default is undefined and Array.sort() will be used in that case,
+        limitTo: 0, // number thats limits the no of options displayed in the UI (if zero, options will not be limited)
+        moreText: "more", // text to be displayed whenmore than one items are selected like Option 1 + 5 more
+        noResultsFound: "No results found!", // text to be displayed when no items are found while searching
+        searchPlaceholder: "Search", // label thats displayed in search input,
+        searchOnKey: undefined, // key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
+        clearOnSelection: false, // clears search criteria when an option is selected if set to true, default is false
+        inputDirection: "ltr", // the direction of the search input can be rtl or ltr(default)
+    };
+
     constructor(
         injector: Injector,
         private _stationsServiceProxy: StationsServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
-        private _fileDownloadService: FileDownloadService
+        private _fileDownloadService: FileDownloadService,
+        private _routes_StationsServiceProxy: Routes_StationsServiceProxy
     ) {
         super(injector);
     }
@@ -302,5 +324,37 @@ export class StationsComponent extends AppComponentBase {
             "stationTable",
             JSON.stringify(this.selectedItems)
         );
+    }
+    showModel(t) {
+        this.showModal = true;
+        console.log(t);
+        this._routes_StationsServiceProxy.getAll(
+            this.filterText,
+            undefined,
+            undefined,
+            257, // station code
+            257, // station code
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            this.primengTableHelper.getSorting(this.dataTable),
+            undefined,
+            100000000
+        ).subscribe(res=> console.log(res))
+    }
+    selectionChanged(b) {
+        console.log("selection changed", b);
+    }
+    saveRouteSelected() {
+        console.log("save Route selected");
     }
 }

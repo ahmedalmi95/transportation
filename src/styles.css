@@ -167,3 +167,7 @@ body.swal2-height-auto {
     left: 0;
     z-index: 4000;
 }
+
+.ngx-dropdown-container .ngx-dropdown-list-container {
+    height: 50vh;
+}
